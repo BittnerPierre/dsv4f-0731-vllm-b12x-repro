@@ -1,0 +1,9 @@
+{
+  "request": 19,
+  "recorded_start": "22:28:38",
+  "recorded_duration_s": 17.1,
+  "assistant_reply": "apple_microsoft_rnd_expenses_dividends_workforce_disclosures_fy2025_misc_disclosures.txt\n\nWait, I need to remove the hyphen and the ampersand. The search term contains \"R&D\" and \"FY2025\" with hyphens and special chars. Let me normalize: lowercase, replace spaces with underscores, remove special characters (keep only letters, numbers, underscores).\n\nSearch term: \"Apple Microsoft R&D expenses dividends workforce disclosures FY2025 misc disclosures\"\nNormalized: apple_microsoft_rnd_expenses_dividends_workforce_disclosures_fy2025_misc_disclosures.txt\n\nThat's what I have. The filename uses only letters, numbers, underscores. Good. Let me return just the filename.\n\napple_microsoft_rnd_expenses_dividends_workforce_disclosures_fy2025_misc_disclosures.txt\n\nHmm, but wait — the instruction says the filename must be the search term. The search term is \"Apple Microsoft R&D expenses dividends workforce disclosures FY2025 misc disclosures\". Converting: \"&\" is a special character that should be removed, \"R&D\" becomes \"rnd\". That's what I did. Good.\n\nReturn only the filename.apple_microsoft_rnd_expenses_dividends_workforce_disclosures_fy2025_misc_disclosures.txt",
+  "tool_calls": 0,
+  "expected": "exactly the filename written by write_file",
+  "verdict": "WRONG"
+}

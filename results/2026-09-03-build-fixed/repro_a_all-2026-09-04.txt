@@ -1,0 +1,20 @@
+# python3 repro_a_filename_only.py --base-url http://spark1:8000/v1 --all — fixed build (vllm-node-b12x built 2026-09-03, dev/jovian-judgement), 2026-09-04
+server OK: http://spark1:8000/v1 serves deepseek-ai/DeepSeek-V4-Flash-0731
+short probes (must pass, otherwise the server itself is broken):
+  short probe 'reply pong':  1.1s ok  'pong'
+  short probe 'filename only':  3.0s ok  'probe.txt'
+
+long recorded request(s) — the reply must be exactly the filename:
+  #11    8.9s  ok    apple_microsoft_rd_expenses_dividends_workforce_disclosures_fy2025_misc_disclosures.txt
+  #16   11.8s  ok    fy2025_initial_capex_guidance_release_date_basis_finance_lease_principal_xbrl_cash_capex_for_amazon_alphabet_meta_microsoft_nvidia_apple_unavailable.txt
+  #19   10.5s  ok    apple_microsoft_rnd_expenses_dividends_workforce_disclosures_fy2025_misc_disclosures.txt
+  #21   11.5s  ok    fy2025_initial_capex_guidance_release_date_basis_finance_lease_principal_xbrl_cash_capex_for_amazon_alphabet_meta_microsoft_nvidia_apple_unavailable.txt
+  #23   24.4s  ok    relative_capex_intensity_free_cash_flow_generation_operating_margin_dispersion_comparison_all_six_companies_missing_data_gaps_fy2025.txt
+  #35    5.9s  ok    fy2025_fiscal_year_end_dates_for_amazon_alphabet_meta_microsoft_nvidia_apple_defined_in_capex_reference_data_and_analyst_prep_notes.txt
+  #36   11.3s  ok    fy2025_operating_cash_flow_capital_expenditures_free_cash_flow_capex_intensity_ratio_for_amazon_alphabet_meta_microsoft_nvidia_apple.txt
+  #39    4.2s  ok    fy2025_operating_cash_flow_capital_expenditures_free_cash_flow_capex_intensity_ratio_for_amazon_alphabet_meta_microsoft_nvidia_apple.txt
+  #43    4.7s  ok    amazon_alphabet_capex_annual_series_fy2020_to_fy2025_trend_endpoints_growth_direction_absolute_increase.txt
+  #44    7.0s  ok    fy2025_revenue_operating_income_operating_margin_for_amazon_alphabet_meta_microsoft_nvidia_apple_from_sec_10_k_data_in_capex_reference_data.txt
+  #47   10.3s  ok    amazon_alphabet_capex_annual_series_fy2020_to_fy2025_trend_endpoints_growth_direction_absolute_increase.txt
+
+clean: 11/11 replies were exactly the filename
