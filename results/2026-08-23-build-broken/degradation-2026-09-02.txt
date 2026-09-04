@@ -1,0 +1,9 @@
+# same request (#47) repeated against the affected build, 2026-09-02 ~23:50 local (transcribed from the session log)
+canary/ping:   0.7s PASS  'pong'
+canary/contract:   0.8s PASS  'canary_probe.txt'
+#47     9.1s  (first repetition)
+canary/ping:   1.2s PASS  'pong'
+canary/contract:   0.9s PASS  'canary_probe.txt'
+#47   240.0s  ERROR TimeoutError: timed out  (second repetition)
+latency series: 9.1s -> 240.0s
+# short probes stayed at 0.7-1.2 s throughout: the server was not down, it degraded on the long request only

@@ -1,0 +1,13 @@
+# same 11 requests against the standard vllm-node image (078a8109a069), same 0731 weights, no speculative, 2026-09-03 ~10:00 local (transcribed)
+#11     5.8s PASS  apple_microsoft_rd_expenses_dividends_workforce_disclosures_fy2025_misc_disclosures.txt
+#16     6.3s PASS  fy2025_initial_capex_guidance_release_date_basis_finance_lease_principal_xbrl_cash_capex_for_amazon_alphabet_meta_microsoft_nvidia_apple_unavailable.txt
+#19     6.3s PASS  apple_microsoft_rnd_expenses_dividends_workforce_disclosures_fy2025_misc_disclosures.txt
+#21    11.2s PASS  fy2025_initial_capex_guidance_release_date_basis_finance_lease_principal_xbrl_cash_capex_for_amazon_alphabet_meta_microsoft_nvidia_apple_unavailable.txt
+#23    37.2s PASS  relative_capex_intensity_free_cash_flow_generation_operating_margin_dispersion_comparison_all_six_companies_missing_data_gaps_fy2025.txt
+#35     7.1s PASS  fy2025_fiscal_year_end_dates_for_amazon_alphabet_meta_microsoft_nvidia_apple_defined_in_capex_reference_data_and_analyst_prep_notes.txt
+#36    12.5s PASS  fy2025_operating_cash_flow_capital_expenditures_free_cash_flow_capex_intensity_ratio_for_amazon_alphabet_meta_microsoft_nvidia_apple.txt
+#39     5.0s PASS  fy2025_operating_cash_flow_capital_expenditures_free_cash_flow_capex_intensity_ratio_for_amazon_alphabet_meta_microsoft_nvidia_apple.txt
+#43     5.1s PASS  amazon_alphabet_capex_annual_series_fy2020_to_fy2025_trend_endpoints_growth_direction_absolute_increase.txt
+#44     9.2s PASS  fy2025_revenue_operating_income_operating_margin_for_amazon_alphabet_meta_microsoft_nvidia_apple_from_sec_10_k_data_in_capex_reference_data.txt
+#47    12.1s PASS  amazon_alphabet_capex_annual_series_fy2020_to_fy2025_trend_endpoints_growth_direction_absolute_increase.txt
+=== SUMMARY (solo) === 11/11 PASS | degradation #47 x3: 1.7s -> 1.7s -> 1.8s | full 47-request sequence: clean

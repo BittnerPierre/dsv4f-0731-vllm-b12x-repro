@@ -57,6 +57,8 @@ def main() -> int:
     p.add_argument("--model", default=None, help="replay against another served model name")
     p.add_argument("--timeout", type=float, default=600)
     args = p.parse_args()
+    if args.repeat < 1:
+        p.error("--repeat must be at least 1")
 
     model, requests = load_requests()
     if args.model:
@@ -109,8 +111,10 @@ def main() -> int:
             )
             bad |= resp is None or dt > 300
             if i < args.repeat - 1:
-                short_probes(args.base_url, model)
-        if len(times) > 1 and times[-1] > 3 * times[0]:
+                if not short_probes(args.base_url, model):
+                    print("CANNOT RUN: an intermediate short probe failed", file=sys.stderr)
+                    return EXIT_CANNOT_RUN
+        if len(times) > 1 and max(times[1:]) > 3 * times[0]:
             bad = True
 
     print(f"\nlatency series: {' -> '.join(f'{t:.1f}s' for t in times)}")

@@ -1,0 +1,9 @@
+{
+  "request": 11,
+  "recorded_start": "22:26:13",
+  "recorded_duration_s": 3.0,
+  "assistant_reply": "apple_microsoft_rd_expenses_dividends_workforce_disclosures_fy2025_misc_disclosures.txt\n.apple_microsoft_rd_expenses_dividends_workforce_disclosures_fy2025_misc_disclosures.txt",
+  "tool_calls": 0,
+  "expected": "exactly the filename written by write_file",
+  "verdict": "WRONG"
+}

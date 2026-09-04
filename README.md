@@ -1,4 +1,4 @@
-# DeepSeek-V4-Flash-0731 on the b12x vLLM build: the model stops following "answer with the filename only" — reproduction kit
+# DeepSeek-V4-Flash-0731 on the 2026-08-15 b12x vLLM build: model ignored "answer with the filename only" — regression kit
 
 > **Status (2026-09-04): fixed.** Broken on the 2026-08-15 `deepseek-v4-flash-0731` recipe (`dev/infernal-invocation`), clean on the 2026-09-03 recipe (`dev/jovian-judgement`, `--attention-backend B12X`). The kit now serves as a regression check. Full story in `ISSUE.md`.
 
@@ -23,8 +23,9 @@ simply down and the scripts stop with exit code 2 instead of claiming anything.
 
 ## What we see
 
-On the `vllm-node-b12x` build serving `deepseek-ai/DeepSeek-V4-Flash-0731`,
-the reply is never just the filename. It is 100-2700 characters like:
+On the affected 2026-08-15 `vllm-node-b12x` build serving
+`deepseek-ai/DeepSeek-V4-Flash-0731`, the reply was never just the filename.
+It was 100-2700 characters like:
 
 ```
 apple_microsoft_rd_expenses_..._disclosures.txt.txt
@@ -34,7 +35,7 @@ Wait, I need to reconsider... I keep adding commentary. The rule says
 "Do not include any other text."
 ```
 
-and the same request gets slower each time it is sent: 3 s, then 20 s, then
+and the same request got slower each time it was sent: 3 s, then 20 s, then
 timeout after 240 s. Short prompts sent in between stay fast and correct.
 
 On the standard `vllm-node` image, same weights, same requests: 11/11 replies
@@ -88,8 +89,8 @@ financial notes generated for a benchmark (freely shareable).
 | V4-Flash-0731 | cloud provider | 7 / 7 (live agent run, twice) | — |
 | **V4-Flash-0731** | **`vllm-node-b12x`, 2026-09-03 recipe (`dev/jovian-judgement`, `B12X`)** | **11 / 11** | **flat, 2.6 s x5** |
 
-So: not the weights, not the prompts, not speculative decoding by itself, not
-concurrency — the `dev/infernal-invocation` b12x build path for this model, fixed on
-`dev/jovian-judgement`.
+The controls isolate the regression to the `dev/infernal-invocation` b12x build
+path for this model rather than the weights, prompts, speculative decoding by
+itself, or concurrency. It is fixed on `dev/jovian-judgement`.
 
 Issue text: `ISSUE.md`.

@@ -1,0 +1,15 @@
+# repro (solo mode, all 11 final-answer requests) against the affected build, 2026-09-02 ~23:30 local
+# vLLM 0.1.dev20133+gb5f995e73.d20260823, dev/infernal-invocation, recipe 2026-08-15 (transcribed from the session log)
+#11    20.5s (recorded     3.0s) FAIL  2096 chars: 'apple_microsoft_rd_expenses_dividends_workforce_disclosures_fy2025_misc_disclosures.txt.txt\n\nActually, let me correct that. The filename should be exactly as wr'
+#16    22.4s (recorded    18.9s) FAIL  1803 chars: 'fy2025_initial_capex_guidance_release_date_basis_finance_lease_principal_xbrl_cash_capex_for_amazon_alphabet_meta_microsoft_nvidia_apple_unavailable.txt\n\nNote: '
+#19    54.3s (recorded    17.1s) FAIL   846 chars: 'apple_microsoft_rnd_expenses_dividends_workforce_disclosures_fy2025_misc_disclosures.txt\n\nWait, I need to use the search term as the filename. The search term i'
+#21    34.8s (recorded     7.4s) FAIL  3126 chars: 'fy2025_initial_capex_guidance_release_date_basis_finance_lease_principal_xbrl_cash_capex_for_amazon_alphabet_meta_microsoft_nvidia_apple_unavailable.txt.txt\n\nWa'
+#23    94.6s (recorded    10.2s) FAIL   248 chars: 'relative_capex_intensity_free_cash_flow_generation_operating_margin_dispersion_comparison_all_six_companies_missing_data_gaps_fy2025.txt\n\nI notice the filename '
+#35    15.5s (recorded    16.3s) FAIL  1202 chars: 'fy2025_fiscal_year_end_dates_for_amazon_alphabet_meta_microsoft_nvidia_apple_defined_in_capex_reference_data_and_analyst_prep_notes.txt.txt\n\nWait — the filename'
+#36    25.5s (recorded    60.4s) FAIL  1635 chars: 'fy2025_operating_cash_flow_capital_expenditures_free_cash_flow_capex_intensity_ratio_for_amazon_alphabet_meta_microsoft_nvidia_apple.txt.txt\n\nWait, I need to re'
+#39    12.1s (recorded     9.8s) FAIL  1001 chars: 'fy2025_operating_cash_flow_capital_expenditures_free_cash_flow_capex_intensity_ratio_for_amazon_alphabet_meta_microsoft_nvidia_apple.txt.txt\n\nWait, let me corre'
+#43   300.0s (recorded    13.9s) ERROR TimeoutError: timed out  [PATHOLOGICAL LATENCY]
+#44    68.4s (recorded    33.3s) FAIL  2854 chars: 'fy2025_revenue_operating_income_operating_margin_for_amazon_alphabet_meta_microsoft_nvidia_apple_from_sec_10_k_data_in_capex_reference_data.txt.txt\n\nI made an e'
+#47    15.9s (recorded     4.3s) FAIL   575 chars: 'amazon_alphabet_capex_annual_series_fy2020_to_fy2025_trend_endpoints_growth_direction_absolute_increase.txt\n\nLet me correct the relative calculation - Amazon ~3'
+=== SUMMARY (solo) === final-answer turns: 11 | violations/errors: 11 | calls over 300s: 1 [43] | REPRODUCED
+# same request #11 sent again ~15 min later: TimeoutError after 240 s (was 3.0 s when recorded, 20.5 s above)
