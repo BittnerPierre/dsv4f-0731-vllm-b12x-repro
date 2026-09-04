@@ -17,8 +17,8 @@ the previous ref was silent: wrong outputs and slowdowns, no crash, no error.
 
 - 2x DGX Spark (GB10 / SM121), tensor-parallel 2
 - Model `deepseek-ai/DeepSeek-V4-Flash-0731`, `--tokenizer-mode/--tool-call-parser/--reasoning-parser deepseek_v4`, `--kv-cache-dtype fp8`, prefix caching on, `max-num-seqs 8`
-- Broken: recipe `deepseek-v4-flash-0731.yaml` as of 2026-08-15 (`dev/infernal-invocation`, vLLM `0.1.dev20133+gb5f995e73.d20260823`, local build of 2026-08-23). That image was overwritten by the rebuild below; its digest was not retained.
-- Fixed: same recipe as of 2026-09-03 (`dev/jovian-judgement`), vLLM `0.1.dev20482+g83cb22a0e.d20260903`, image `vllm-node-b12x:latest` built 2026-09-03 (image id `21edb7f8046e`, `eugr/spark-vllm-b12x@sha256:16ce6e7efce8bebda9a800fd1432c7dde42d28f901354af00b2f3a57e68e3654`)
+- Broken: recipe `deepseek-v4-flash-0731.yaml` as of [2026-08-15](https://github.com/eugr/spark-vllm-docker/commit/358bf26e3d7d315450a6159ccdc0b38cbbd6b855) (`dev/infernal-invocation`, vLLM `0.1.dev20133+gb5f995e73.d20260823`, local build of 2026-08-23). That image was overwritten by the rebuild below; its digest was not retained.
+- Fixed: same recipe as of [2026-09-03](https://github.com/eugr/spark-vllm-docker/commit/e91bc7632aa841b21c2c46b9da58ba5e4f46f44c) (`dev/jovian-judgement`), vLLM `0.1.dev20482+g83cb22a0e.d20260903`, image `vllm-node-b12x:latest` built 2026-09-03 (image id `21edb7f8046e`, `eugr/spark-vllm-b12x@sha256:16ce6e7efce8bebda9a800fd1432c7dde42d28f901354af00b2f3a57e68e3654`)
 - Standard image used for the clean control: `vllm-node:latest` (image id `078a8109a069`, built ~2026-08-26)
 
 ## What happened on the broken build
@@ -53,10 +53,16 @@ Exit 0 clean, 1 reproduced, 2 could not run. Each run starts with two short prob
 
 ## Notes
 
-- Likely fixed by the Sept 3 commits on `dev/jovian-judgement`: `83cb22a0` (B12X sparse MLA per-token cache
-  lengths recomputed as a fresh tensor each build → FULL CUDA-graph replays read stale lengths), `341f198b`
-  (DSpark decode/prefill split mismatch in the sparse MLA builder), `b60c5e39` (DSpark decode metadata sizing),
-  `d662a1b0` (new `B12X` sparse MLA/DSA backend replacing `B12X_MLA_SPARSE`). Not bisected — the kit makes that
-  cheap if useful.
-- Related on the same image era: #349 (profiling crash on the 2026-08-15 image), #358 (DSpark acceptance collapse
-  ending in empty outputs — different outcome from the silent one here).
+- Likely fixed by the Sept 3 commits on `dev/jovian-judgement`:
+  [`83cb22a0`](https://github.com/local-inference-lab/vllm/commit/83cb22a0e3f7ec4d2fb43f6ead34ba4d4a87a634)
+  (B12X sparse MLA per-token cache lengths recomputed as a fresh tensor each build → FULL CUDA-graph replays read
+  stale lengths), [`341f198b`](https://github.com/local-inference-lab/vllm/commit/341f198b276e15395dea96b1519873d0258a2663)
+  (DSpark decode/prefill split mismatch in the sparse MLA builder),
+  [`b60c5e39`](https://github.com/local-inference-lab/vllm/commit/b60c5e397f06ac3d64fb20d719aad8968938e4f6)
+  (DSpark decode metadata sizing), and
+  [`d662a1b0`](https://github.com/local-inference-lab/vllm/commit/d662a1b0890271915c25439f22247ee22234739a)
+  (new `B12X` sparse MLA/DSA backend replacing `B12X_MLA_SPARSE`). Not bisected — the kit makes that cheap if useful.
+- Related on the same image era: [eugr/spark-vllm-docker#349](https://github.com/eugr/spark-vllm-docker/issues/349)
+  (profiling crash on the 2026-08-15 image) and
+  [eugr/spark-vllm-docker#358](https://github.com/eugr/spark-vllm-docker/issues/358)
+  (DSpark acceptance collapse ending in empty outputs — different outcome from the silent one here).
