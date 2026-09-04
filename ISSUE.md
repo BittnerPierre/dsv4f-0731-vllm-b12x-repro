@@ -17,8 +17,9 @@ the previous ref was silent: wrong outputs and slowdowns, no crash, no error.
 
 - 2x DGX Spark (GB10 / SM121), tensor-parallel 2
 - Model `deepseek-ai/DeepSeek-V4-Flash-0731`, `--tokenizer-mode/--tool-call-parser/--reasoning-parser deepseek_v4`, `--kv-cache-dtype fp8`, prefix caching on, `max-num-seqs 8`
-- Broken: recipe `deepseek-v4-flash-0731.yaml` as of 2026-08-15 (`dev/infernal-invocation`, vLLM `0.1.dev20133+gb5f995e73.d20260823`). Image digest: ___
-- Fixed: same recipe as of 2026-09-03 (`dev/jovian-judgement`). Image digest: ___ , vLLM version: ___
+- Broken: recipe `deepseek-v4-flash-0731.yaml` as of 2026-08-15 (`dev/infernal-invocation`, vLLM `0.1.dev20133+gb5f995e73.d20260823`, local build of 2026-08-23). That image was overwritten by the rebuild below; its digest was not retained.
+- Fixed: same recipe as of 2026-09-03 (`dev/jovian-judgement`), vLLM `0.1.dev20482+g83cb22a0e.d20260903`, image `vllm-node-b12x:latest` built 2026-09-03 (image id `21edb7f8046e`, `eugr/spark-vllm-b12x@sha256:16ce6e7efce8bebda9a800fd1432c7dde42d28f901354af00b2f3a57e68e3654`)
+- Standard image used for the clean control: `vllm-node:latest` (image id `078a8109a069`, built ~2026-08-26)
 
 ## What happened on the broken build
 
