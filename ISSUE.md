@@ -66,3 +66,10 @@ Exit 0 clean, 1 reproduced, 2 could not run. Each run starts with two short prob
   (profiling crash on the 2026-08-15 image) and
   [eugr/spark-vllm-docker#358](https://github.com/eugr/spark-vllm-docker/issues/358)
   (DSpark acceptance collapse ending in empty outputs — different outcome from the silent one here).
+
+## Ask
+
+Nothing to fix — posting for the record; the kit can serve as a regression check for the 0731 recipe.
+
+Thanks for the 2026-09-03 update: it fixed this before we got to report it, and the recipe/commit history made the
+diagnosis straightforward.
