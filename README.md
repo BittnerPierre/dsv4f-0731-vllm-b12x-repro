@@ -1,5 +1,7 @@
 # DeepSeek-V4-Flash-0731 on the b12x vLLM build: the model stops following "answer with the filename only" — reproduction kit
 
+> **Status (2026-09-04): fixed.** Broken on the 2026-08-15 `deepseek-v4-flash-0731` recipe (`dev/infernal-invocation`), clean on the 2026-09-03 recipe (`dev/jovian-judgement`, `--attention-backend B12X`). The kit now serves as a regression check. Full story in `ISSUE.md`.
+
 ## What this is
 
 47 real HTTP requests to `/v1/chat/completions`, recorded from an agent that
@@ -84,8 +86,10 @@ financial notes generated for a benchmark (freely shareable).
 | V4-Flash (previous checkpoint) | standard `vllm-node` | 11 / 11 | flat |
 | Qwen3.6-35B-A3B | standard `vllm-node` | 10 / 11 | flat |
 | V4-Flash-0731 | cloud provider | 7 / 7 (live agent run, twice) | — |
+| **V4-Flash-0731** | **`vllm-node-b12x`, 2026-09-03 recipe (`dev/jovian-judgement`, `B12X`)** | **11 / 11** | **flat, 2.6 s x5** |
 
 So: not the weights, not the prompts, not speculative decoding by itself, not
-concurrency. Something in the b12x build path for this model.
+concurrency — the `dev/infernal-invocation` b12x build path for this model, fixed on
+`dev/jovian-judgement`.
 
-Issue texts: `ISSUE-A-instruction-following.md` (wrong replies) and `ISSUE-B-latency-degradation.md` (slowdown with uptime).
+Issue text: `ISSUE.md`.
