@@ -1,6 +1,6 @@
 # DeepSeek-V4-Flash-0731 on the 2026-08-15 b12x vLLM build: model ignored "answer with the filename only" — regression kit
 
-> **Status (2026-09-04): fixed.** Broken on the 2026-08-15 `deepseek-v4-flash-0731` recipe (`dev/infernal-invocation`), clean on the 2026-09-03 recipe (`dev/jovian-judgement`, `--attention-backend B12X`). The kit now serves as a regression check. Full story in `ISSUE.md`.
+> **Status (2026-09-04): fixed.** Broken on the 2026-08-15 `deepseek-v4-flash-0731` recipe (`dev/infernal-invocation`), clean on the 2026-09-03 recipe (`dev/jovian-judgement`, `--attention-backend B12X`). The kit now serves as a regression check. Full story in `ISSUE.md`, posted as [eugr/spark-vllm-docker#376](https://github.com/eugr/spark-vllm-docker/issues/376).
 
 ## What this is
 
