@@ -118,3 +118,7 @@ Six occurrences in two days, then none: the kit keeps everything needed to try a
 
 Score of the reproduction so far: 2 hangs out of 5 script attempts on 2026-09-06 morning, then
 0 in ~13 hours of replays, fuzzing and two real benchmark campaigns on one server instance.
+- `diagnostics/` — server-side collection: `collect-vllm-hang.sh` gathers, in one command,
+  the GPU counters, per-thread `/proc` scan, py-spy and `pystack --native-all` dumps of both
+  ranks, the vLLM logs and the RDMA error counters. Its README explains why py-spy alone misses
+  the spinning NCCL thread, and lists the reference values a hang produces.
