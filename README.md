@@ -100,7 +100,7 @@ A second, different anomaly on the fixed 2026-09-03 recipe with `dspark` specula
 is being investigated on the `engine-hang` branch (draft report, reproduction scripts, data
 sets). It is not reproducible at the moment. The server-side collection script lives here:
 
-- `diagnostics/` — server-side collection: `collect-vllm-hang.sh` gathers, in one command,
-  the GPU counters, per-thread `/proc` scan, py-spy and `pystack --native-all` dumps of both
-  ranks, the vLLM logs and the RDMA error counters. Its README explains why py-spy alone misses
-  the spinning NCCL thread, and lists the reference values a hang produces.
+- `engine-hang/diagnostics/` (on the `engine-hang` branch) — `collect-vllm-hang.sh` gathers, in
+  one command, the GPU counters, a per-thread `/proc` scan, py-spy and `pystack --native-all`
+  dumps of both ranks, the vLLM logs and the RDMA error counters. Its README explains why
+  py-spy alone misses the spinning NCCL thread, and lists the reference values a hang produces.
