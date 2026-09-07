@@ -1,0 +1,76 @@
+{
+ "messages": [
+  {
+   "content": "# System context\nYou are part of a multi-agent system called the Agents SDK, designed to make agent coordination and execution easy. Agents uses two primary abstraction: **Agents** and **Handoffs**. An agent encompasses instructions and tools and can hand off a conversation to another agent when appropriate. Handoffs are achieved by calling a handoff function, generally named `transfer_to_<agent_name>`. Transfers between agents are handled seamlessly in the background; do not mention or draw attention to these transfers in your conversation with the user.\n\n\nYou are a helpful research assistant. Given a research plan with a list of knowledge entries, generate a COMPREHENSIVE set of semantic searches to perform in vectorized knowlegde base to exhaustively cover the agenda.\n\nGenerate between 5-7 searches covering the suggested topics in the agenda.\n\nFor each search, prepare a SearchPlan with:\n\n- `query`: A specific, detailed search query\n- `reason`: Why this search is important and what specific information you expect to find\n- `filenames` (optional): Only include when there is a clear, obvious benefit to limiting the search to specific file(s); otherwise leave it empty.\n\nLook at the knowledge entries summary and keywords to frame comprehensive queries that will extract maximum relevant information.\n\nUse the tools to achieve the task.\n",
+   "role": "system"
+  },
+  {
+   "role": "user",
+   "content": "#### Cartographie des concepts à explorer\n\n# AGENDA — Junior Analyst Data Pack: FY2025 AI Capex Intensity\n\n## Research Objective\nPrepare a concise, factual data pack covering six companies (Amazon, Alphabet, Meta, Microsoft, NVIDIA, Apple) using **only the five frozen provided sources**. This is a data collection and first-level analysis task, not an investment opinion. All figures must come from the supplied sources with source IDs cited.\n\n## Source Corpus (exclusive filter — no other sources)\n1. **S1 – capex_reference_data.md** (Capital-Expenditure Reference Data from SEC 10-K filings) — FY2025 actuals: Revenue, Op Income, Op Margin, OCF, Capex, FCF, Capex/OCF for all 6 companies\n2. **S2 – analyst_prep_notes.md** (Analyst Prep Notes — Capex & Cash Generation) — FY2025 metric summaries and 2020→FY2025 capex trend descriptions\n3. **S3 – key_metrics.csv** — FY2020–FY2025 annual time series (Revenue, Op Income, Op Margin, OCF, Capex, FCF, Capex/OCF) for Amazon and Alphabet\n4. **S4 – capex_guidance_2025.md** (Initial FY2025 Capex Guidance, frozen Feb 7, 2025) — Amazon ~$100B, Alphabet ~$75B, Meta $60–65B (incl. finance leases); MSFT/NVDA/Apple unavailable\n5. **S5 – misc_disclosures.md** (Miscellaneous Company Disclosures) — Apple R&D/dividends, Microsoft R&D/employee base\n\n## Concept Map & Required Analysis\n\n### 1. Overview and Definitions\n- Define all 7 metrics: Revenue, Operating Income, Operating Margin, Operating Cash Flow, Capex, Free Cash Flow (=OCF − Capex), Capex Intensity (=Capex/OCF)\n- State fiscal-year-end differences: Dec (AMZN/GOOGL/META), June (MSFT), late Jan (NVDA), late Sept (AAPL)\n- Clarify FY2025 = latest fiscal year with complete set for all six companies\n- **Resources**: S1, S2, S3\n- **Keywords**: FY2025, fiscal year end, definitions, revenue, operating income, margin, OCF, capex, FCF, capex intensity\n\n### 2. FY2025 Profitability (per-company)\n- Report Revenue, Operating Income, Operating Margin for all six companies from source values\n- **Resources**: S1, S2, S3\n- **Keywords**: revenue, operating income, operating margin, profitability, $USD billions\n\n### 3. FY2025 Capex and Cash Generation (per-company)\n- Report Operating Cash Flow, Capex, FCF, Capex/OCF for all six companies\n- **Resources**: S1, S2, S3\n- **Keywords**: operating cash flow, capex, free cash flow, capex intensity, cash generation\n\n### 4. Capex Trends\n- For each company, describe direction and magnitude of capex trend from earliest available capex year to FY2025 using endpoints in corpus\n- Amazon & Alphabet: use S3 time series (FY2020→FY2025)\n- Others: use S2 trend descriptions and S1 endpoints\n- **Resources**: S1, S2, S3\n- **Keywords**: capex trend, year-over-year, magnitude, growth, endpoints\n\n### 5. Guidance vs Actuals (SEPARATE SECTION)\n- Report frozen initial FY2025 guidance, release date, basis for Amazon, Alphabet, Meta (from S4)\n- Report Microsoft, NVIDIA, Apple guidance as unavailable\n- Keep separate from FY2025 actuals\n- Do NOT compute Meta guidance variance (guidance includes finance-lease principal; XBRL cash-capex actual uses different basis)\n- **Resources**: S4 (and S1/S2 for actuals context, kept separate)\n- **Keywords**: guidance, capex guidance, release date, basis, finance leases, forward-looking\n\n### 6. Cross-Company Comparison\n- Compare capex intensity, margins, cash generation across the six companies\n- Note differing fiscal-year ends as comparability caveat\n- **Resources**: S1, S2, S3\n- **Keywords**: comparison, capex intensity, margins, relative magnitude, fiscal year alignment\n\n### 7. Data Gaps\n- State whether any required actual metric is missing; do NOT infer missing values\n- Identify which metrics (if any) are absent from the corpus\n- **Resources**: all sources\n- **Keywords**: data gaps, missing metrics, unavailable guidance, no inference\n\n## Report Contract\n- Markdown brief with sections: Overview and Definitions; FY2025 Profitability; FY2025 Capex and Cash Generation; Capex Trends; Guidance vs Actuals; Cross-Company Comparison; Data Gaps\n- Every required FY2025 fact in parseable table with columns: | Company | Metric | Period | Value |\n- Period explicit in each table row\n- Cite source ID next to each table/factual paragraph\n- Neutral, descriptive tone\n- 500–1,800 words (excluding auto-generated Sources section)\n\n## Methodological Constraints\n- Only the five provided sources; no web browsing\n- No introduced companies, estimates, or empirical figures\n- No inferred values — only report what the sources supply\n- No Meta guidance variance calculation"
+  }
+ ],
+ "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+ "reasoning_effort": "none",
+ "response_format": {
+  "type": "json_schema",
+  "json_schema": {
+   "name": "final_output",
+   "strict": true,
+   "schema": {
+    "$defs": {
+     "FileSearchItem": {
+      "properties": {
+       "reason": {
+        "title": "Reason",
+        "type": "string"
+       },
+       "query": {
+        "title": "Query",
+        "type": "string"
+       },
+       "filenames": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Filenames"
+       }
+      },
+      "required": [
+       "reason",
+       "query",
+       "filenames"
+      ],
+      "title": "FileSearchItem",
+      "type": "object",
+      "additionalProperties": false
+     }
+    },
+    "properties": {
+     "searches": {
+      "items": {
+       "$ref": "#/$defs/FileSearchItem"
+      },
+      "title": "Searches",
+      "type": "array"
+     }
+    },
+    "required": [
+     "searches"
+    ],
+    "title": "FileSearchPlan",
+    "type": "object",
+    "additionalProperties": false
+   }
+  }
+ },
+ "temperature": 1.0,
+ "top_p": 0.95
+}

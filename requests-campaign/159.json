@@ -1,0 +1,134 @@
+{
+ "messages": [
+  {
+   "content": "# System context\nYou are part of a multi-agent system called the Agents SDK, designed to make agent coordination and execution easy. Agents uses two primary abstraction: **Agents** and **Handoffs**. An agent encompasses instructions and tools and can hand off a conversation to another agent when appropriate. Handoffs are achieved by calling a handoff function, generally named `transfer_to_<agent_name>`. Transfers between agents are handled seamlessly in the background; do not mention or draw attention to these transfers in your conversation with the user.\n\n\nYou are a research assistant.\n\nGiven a search term, search the web or vector store for that term and produce a **clear, concise, relevant summary**.\n\nYour summary must follow these rules:\n\n- **2–3 short paragraphs maximum**\n- **Max 300 words**\n- Use bullet points only if needed for clarity.\n- No unnecessary background — focus only on the main facts.\n- No filler or redundant phrases.\n- No commentary, disclaimers or explanations — only the raw summary.\n- Use only retrieved evidence chunks; do not invent missing facts.\n- Add a bracket citation after each key claim.\n- Prefer the format [document_id:chunk_index] when retrieval metadata provides document_id.\n- If document_id is unavailable, use [filename:chunk_index].\n- Do not omit bracket citations when the retrieval result gives you enough metadata to cite.\n- If evidence is missing, explicitly state that the information is unavailable.\n\n**Delivery rule:**\n\n- When done, you MUST store the entire summary using the `write_file` function.\n- DO NOT print the summary directly in your reply — only call `write_file`.\n- The `filename` must be the search term.\n- The `content` must be your summary text.\n- If you do not use `write_file`, your task is incomplete and will be rejected.\n- In your final reply, return only the name of the file \"<filename>.txt\"\n\nDo not include any other text.\n\n## FILENAME RULES\n\nWhen you use `write_file`:\n\n- Always convert the search topic to lowercase.\n- Replace spaces with underscores `_`.\n- Remove special characters (keep only letters, numbers, underscores).\n- Limit filename length to 255 characters maximum (including .txt).\n- Always add `.txt` at the end.\n\nExample:  \nSearch term: \"Multi Agent Orchestration\" → Filename: `multi_agent_orchestration.txt`\n\nWrite in the same language as the search term.\n\n## RETRIEVAL QUERY RULE\n\n- When you call `vector_search`, use the provided search term as-is for the `query` argument.\n- Call `vector_search` with `query`.\n- If the input includes target filenames and you are using `vector_search`, pass them via `filenames`.\n- You may also pass `domain_hint` only when the domain is clearly and explicitly identified in the syllabus or conversation context.\n- Do not rewrite, simplify, or replace the query with a vaguer version.\nThe absolute path to **temporary filesystem** is `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmpgnxp44k_`. You MUST use it to write and read temporary data.\nWhen calling write_file, always set `path` to `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmpgnxp44k_/<normalized_filename>.txt` and never write outside this directory.\n\n",
+   "role": "system"
+  },
+  {
+   "role": "user",
+   "content": "Terme de recherche: ReAct reasoning acting tool use loop agent function calling API actions invoke external tools\nRaison de la recherche: This search covers the ReAct reasoning-acting loop and tool use, drawing on H1 and H3 for Section 1 concept 5 and Section 3 concept 14. It links prompting techniques to agent tool-use architecture.\nFichiers cibles: Agents_1.md, Text_generation.md"
+  },
+  {
+   "role": "assistant",
+   "content": "I'll search the vector store for the relevant information.\n\n",
+   "tool_calls": [
+    {
+     "id": "chatcmpl-tool-8392fa0f4841d882",
+     "type": "function",
+     "function": {
+      "name": "vector_search",
+      "arguments": "{\"query\": \"ReAct reasoning acting tool use loop agent function calling API actions invoke external tools\", \"domain_hint\": \"agents\", \"filenames\": [\"Agents_1.md\", \"Text_generation.md\"]}"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "chatcmpl-tool-8392fa0f4841d882",
+   "content": "{'query': 'ReAct reasoning acting tool use loop agent function calling API actions invoke external tools', 'effective_queries': ['ReAct reasoning acting tool use loop agent function calling API actions invoke external tools'], 'observability': {'rewrite_requested': False, 'rewrite_applied': False, 'rewrite_mode': 'none', 'rewrite_input_query': 'ReAct reasoning acting tool use loop agent function calling API actions invoke external tools', 'effective_queries_count': 1, 'rewrite_backend': 'none_or_fallback', 'rewrite_domain_hint': 'agents', 'rewrite_domain_hint_source': 'agent_override', 'top_k': 12, 'score_threshold': None, 'filenames': ['Agents_1.md', 'Text_generation.md']}, 'results': [{'document': 'alues.\\nFor example, given the user query “How many kilograms are 40 pounds?”, the agent might decide that it needs the tool `lbs_to_kg_tool` with one parameter value of 40. The agent’s response might look like this.', 'metadata': {'source': 'https://huyenchip.com/2025/01/07/agents.html', 'chunk_index': 46, 'filename': 'Agents_1.md', 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4'}, 'score': 0.7543056596790707}, {'document': 'low\"},\\ninstructions=\"Talk like a pirate.\",\\ninput=\"Are semicolons optional in JavaScript?\",\\n)\\nprint(response.output_text)\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\ncurl \"https://api.openai.com/v1/responses\" \\\\\\n-H \"Content-Type: application/json\" \\\\\\n-H \"Authorization: Bearer $OPENAI_API_KEY\" \\\\\\n-d \\'{\\n\"model\": \"gpt-5\",\\n\"reasoning\": {\"effort\": \"low\"},\\n\"instructions\": \"Talk like a pirate.\",\\n\"input\": \"Are semicolons optional in JavaScript?\"\\n}\\'\\nThe example above is roughly equivalent to using the following input messages in the `input` array:\\nGenerate text with messages using different roles\\njavascript', 'metadata': {'chunk_index': 12, 'filename': 'Text_generation.md', 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat', 'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5'}, 'score': 0.7326258082620968}, {'document': 'further by the following settings:\\n* `required`: the model must use at least one tool.\\n* `none`: the model shouldn’t use any tool.\\n* `auto`: the model decides which tools to use.\\nFunction calling is illustrated in Figure 6-10. This is written in pseudocode to make it representative of multiple APIs. To use a specific API, please refer to its documentation.\\nFigure 6-10. An example of a model using two simple tools\\nGiven a query, an agent defined as in Figure 6-10 will automatically generate what tools to use and their parameters. Some function calling APIs will make sure that only valid functions are generated, though they won’t be able to guarantee the correct parameter values.\\nFor example, given the user query “How many kilograms are 40 pounds?”, the agent might decide that it needs the t', 'metadata': {'filename': 'Agents_1.md', 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'chunk_index': 45, 'source': 'https://huyenchip.com/2025/01/07/agents.html'}, 'score': 0.7055126045753113}, {'document': 'ke a pirate.\"\\n},\\n{\\n\"role\": \"user\",\\n\"content\": \"Are semicolons optional in JavaScript?\"\\n}\\n]\\n)\\nprint(response.output_text)\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n11\\n12\\n13\\n14\\n15\\n16\\n17\\ncurl \"https://api.openai.com/v1/responses\" \\\\\\n-H \"Content-Type: application/json\" \\\\\\n-H \"Authorization: Bearer $OPENAI_API_KEY\" \\\\\\n-d \\'{\\n\"model\": \"gpt-5\",\\n\"reasoning\": {\"effort\": \"low\"},\\n\"input\": [\\n{\\n\"role\": \"developer\",\\n\"content\": \"Talk like a pirate.\"\\n},\\n{\\n\"role\": \"user\",\\n\"content\": \"Are semicolons optional in JavaScript?\"\\n}\\n]\\n}\\'', 'metadata': {'chunk_index': 15, 'filename': 'Text_generation.md', 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat', 'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5'}, 'score': 0.7050803961575995}, {'document': 't_abc123\",\\n\"variables\": {\\n\"topic\": \"Dragons\",\\n\"reference_pdf\": {\\n\"type\": \"input_file\",\\n\"file_id\": \"file-abc123\"\\n}\\n}\\n}\\n}\\'\\n## Next steps\\nNow that you known the basics of text inputs and outputs, you might want to check out one of these resources next.\\n[Build a prompt in the PlaygroundUse the Playground to develop and iterate on prompts.]() [Generate JSON data with Structured OutputsEnsure JSON data emitted from a model conforms to a JSON schema.]() [Full API referenceCheck out all the options for text generation in the API reference.]()\\n---', 'metadata': {'chunk_index': 25, 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat', 'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5', 'filename': 'Text_generation.md'}, 'score': 0.7027592429126888}, {'document': 'Doe\",\\n\"product\": \"40oz juice box\"\\n}\\n}\\n}\\'\\nVariables with file input\\nPrompt template with file input variable\\njavascript\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n11\\n12\\n13\\n14\\n15\\n16\\n17\\n18\\n19\\n20\\n21\\n22\\n23\\n24\\n25\\nimport fs from \"fs\";\\nimport OpenAI from \"openai\";\\nconst client = new OpenAI();\\n// Upload a PDF we will reference in the prompt variables\\nconst file = await client.files.create({\\nfile: fs.createReadStream(\"draconomicon.pdf\"),\\npurpose: \"user_data\",\\n});\\nconst response = await client.responses.create({\\nmodel: \"gpt-5\",\\nprompt: {\\nid: \"pmpt_abc123\",\\nvariables: {\\ntopic: \"Dragons\",\\nreference_pdf: {\\ntype: \"input_file\",\\nfile_id: file.id,\\n},\\n},\\n},\\n});\\nconsole.log(response.output_text);', 'metadata': {'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5', 'filename': 'Text_generation.md', 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat', 'chunk_index': 22}, 'score': 0.6934188923488873}, {'document': 'their models into agents. A tool is a function. Invoking a tool is, therefore, often called _function calling_. Different model APIs work differently, but in general, function calling works as follows:\\n1. _Create a tool inventory._ Declare all the tools that you might want a model to use. Each tool is described by its execution entry point (e.g., its function name), its parameters, and its documentation (e.g., what the function does and what parameters it needs).\\n2. _Specify what tools the agent can use for a query._\\nBecause different queries might need different tools, many APIs let you specify a list of declared tools to be used per query. Some let you control tool use further by the following settings:\\n* `required`: the model must use at least one tool.\\n* `none`: the model shouldn’t use', 'metadata': {'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'filename': 'Agents_1.md', 'source': 'https://huyenchip.com/2025/01/07/agents.html', 'chunk_index': 44}, 'score': 0.6850565296659792}, {'document': 'examples. Using the exact function names also makes it harder to reuse a planner across different use cases with different tool APIs.\\nIf you’ve previously finetuned a model to generate plans based on the old tool inventory, you’ll need to finetune the model again on the new tool inventory.\\nTo avoid this problem, plans can also be generated using a more natural language, which is higher-level than domain-specific function names. For example, given the query “What’s the price of the best-selling product last week”, an agent can be instructed to output a plan that looks like this:\\n1. `get current date`\\n2. `retrieve the best-selling product last week`\\n3. `retrieve product information`\\n4. `generate query`\\n5. `generate response`\\nUsing more natural language helps your plan generator become robus', 'metadata': {'filename': 'Agents_1.md', 'source': 'https://huyenchip.com/2025/01/07/agents.html', 'chunk_index': 50, 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4'}, 'score': 0.6833634872027818}, {'document': 'version\": \"2\",\\n\"variables\": {\\n\"customer_name\": \"Jane Doe\",\\n\"product\": \"40oz juice box\"\\n}\\n}\\n)\\nprint(response.output_text)\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n11\\n12\\n13\\n14\\ncurl https://api.openai.com/v1/responses \\\\\\n-H \"Authorization: Bearer $OPENAI_API_KEY\" \\\\\\n-H \"Content-Type: application/json\" \\\\\\n-d \\'{\\n\"model\": \"gpt-5\",\\n\"prompt\": {\\n\"id\": \"pmpt_abc123\",\\n\"version\": \"2\",\\n\"variables\": {\\n\"customer_name\": \"Jane Doe\",\\n\"product\": \"40oz juice box\"\\n}\\n}\\n}\\'\\nVariables with file input\\nPrompt template with file input variable\\njavascript', 'metadata': {'chunk_index': 21, 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat', 'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5', 'filename': 'Text_generation.md'}, 'score': 0.6806884725536504}, {'document': 'nly after this plan is _validated_ is it executed. The plan can be validated using heuristics. For example, one simple heuristic is to eliminate plans with invalid actions. If the generated plan requires a Google search and the agent doesn’t have access to Google Search, this plan is invalid. Another simple heuristic might be eliminating all plans with more than X steps.\\nA plan can also be validated using AI judges. You can ask a model to evaluate whether the plan seems reasonable or how to improve it.\\nIf the generated plan is evaluated to be bad, you can ask the planner to generate another plan. If the generated plan is good, execute it.\\nIf the plan consists of external tools, function calling will be invoked. Outputs from executing this plan will then again need to be evaluated. Note tha', 'metadata': {'chunk_index': 26, 'filename': 'Agents_1.md', 'source': 'https://huyenchip.com/2025/01/07/agents.html', 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4'}, 'score': 0.6788118322061323}]}"
+  },
+  {
+   "role": "assistant",
+   "tool_calls": [
+    {
+     "id": "chatcmpl-tool-8905730c74586a43",
+     "type": "function",
+     "function": {
+      "name": "write_file",
+      "arguments": "{\"path\": \"/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmpgnxp44k_/react_reasoning_acting_tool_use_loop_agent_function_calling_api_actions_invoke_external_tools.txt\", \"content\": \"L'intégration d'agents dans les modèles de langage repose sur l'invocation d'outils, souvent appelée *function calling*. Une tool est une fonction : son invocation consiste à générer automatiquement les outils à utiliser et leurs paramètres à partir d'une requête [967e61d4-de9b-4554-a51c-b286bf9fa8f4:44][967e61d4-de9b-4554-a51c-b286bf9fa8f4:45]. Par exemple, pour la requête « Combien de kilogrammes font 40 livres ? », l'agent décide d'utiliser l'outil `lbs_to_kg_tool` avec le paramètre 40 [967e61d4-de9b-4554-a51c-b286bf9fa8f4:46].\\n\\nLe fonctionnement général du function calling se décompose en plusieurs étapes : 1) créer un inventaire d'outils (chaque outil est décrit par son point d'entrée d'exécution, ses paramètres et sa documentation) ; 2) spécifier quels outils l'agent peut utiliser pour une requête. Certaines API permettent de contrôler davantage l'usage des outils via les réglages `required` (l'outil doit être utilisé au moins une fois), `none` (aucun outil) ou `auto` (le modèle décide) [967e61d4-de9b-4554-a51c-b286bf9fa8f4:44]. Les API de function calling garantissent souvent la génération de fonctions valides, mais pas la justesse des valeurs de paramètres [967e61d4-de9b-4554-a51c-b286bf9fa8f4:45].\\n\\nDans une architecture de planification, le plan généré n'est exécuté qu'après validation (par heuristiques ou juges IA). Si le plan repose sur des outils externes, le function calling est invoqué, puis les sorties sont à leur tour évaluées [967e61d4-de9b-4554-a51c-b286bf9fa8f4:26]. La génération de texte via l'API (ex. modèles gpt-5, messages avec rôles, variables de prompt) constitue le socle sur lequel cette boucle raisonnement-action s'appuie [afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5:12][afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5:15][afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5:21].\"}"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "chatcmpl-tool-8905730c74586a43",
+   "content": "{\"type\":\"text\",\"text\":\"Successfully wrote to /private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmpgnxp44k_/react_reasoning_acting_tool_use_loop_agent_function_calling_api_actions_invoke_external_tools.txt\",\"annotations\":null,\"meta\":null}"
+  }
+ ],
+ "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+ "reasoning_effort": "none",
+ "temperature": 1.0,
+ "tools": [
+  {
+   "type": "function",
+   "function": {
+    "name": "write_file",
+    "description": "Create a new file or completely overwrite an existing file with new content. Use with caution as it will overwrite existing files without warning. Handles text content with proper encoding. Only works within allowed directories.",
+    "parameters": {
+     "$schema": "http://json-schema.org/draft-07/schema#",
+     "type": "object",
+     "properties": {
+      "path": {
+       "type": "string"
+      },
+      "content": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "path",
+      "content"
+     ]
+    },
+    "strict": false
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "vector_search",
+    "description": "Recherche sémantique dans la base vectorielle de la session.",
+    "parameters": {
+     "properties": {
+      "query": {
+       "description": "La requête de recherche sémantique.",
+       "title": "Query",
+       "type": "string"
+      },
+      "domain_hint": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — indice de domaine pour contextualiser la recherche.",
+       "title": "Domain Hint"
+      },
+      "filenames": {
+       "anyOf": [
+        {
+         "items": {
+          "type": "string"
+         },
+         "type": "array"
+        },
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — restreint la recherche à ces fichiers. Utiliser les\nnoms exacts tels que stockés dans la base de connaissances (champ\n'filename' des entrées), pas les titres de documents. En cas de doute,\nomettre ce paramètre (la recherche porte alors sur tout le corpus).",
+       "title": "Filenames"
+      }
+     },
+     "required": [
+      "query",
+      "domain_hint",
+      "filenames"
+     ],
+     "title": "vector_search_args",
+     "type": "object",
+     "additionalProperties": false
+    },
+    "strict": true
+   }
+  }
+ ],
+ "top_p": 0.95
+}

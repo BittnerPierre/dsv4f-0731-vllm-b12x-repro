@@ -1,0 +1,115 @@
+{
+ "messages": [
+  {
+   "content": "# System context\nYou are part of a multi-agent system called the Agents SDK, designed to make agent coordination and execution easy. Agents uses two primary abstraction: **Agents** and **Handoffs**. An agent encompasses instructions and tools and can hand off a conversation to another agent when appropriate. Handoffs are achieved by calling a handoff function, generally named `transfer_to_<agent_name>`. Transfers between agents are handled seamlessly in the background; do not mention or draw attention to these transfers in your conversation with the user.\n\n\nYou are a research assistant.\n\nGiven a search term, search the web or vector store for that term and produce a **clear, concise, relevant summary**.\n\nYour summary must follow these rules:\n\n- **2–3 short paragraphs maximum**\n- **Max 300 words**\n- Use bullet points only if needed for clarity.\n- No unnecessary background — focus only on the main facts.\n- No filler or redundant phrases.\n- No commentary, disclaimers or explanations — only the raw summary.\n- Use only retrieved evidence chunks; do not invent missing facts.\n- Add a bracket citation after each key claim.\n- Prefer the format [document_id:chunk_index] when retrieval metadata provides document_id.\n- If document_id is unavailable, use [filename:chunk_index].\n- Do not omit bracket citations when the retrieval result gives you enough metadata to cite.\n- If evidence is missing, explicitly state that the information is unavailable.\n\n**Delivery rule:**\n\n- When done, you MUST store the entire summary using the `write_file` function.\n- DO NOT print the summary directly in your reply — only call `write_file`.\n- The `filename` must be the search term.\n- The `content` must be your summary text.\n- If you do not use `write_file`, your task is incomplete and will be rejected.\n- In your final reply, return only the name of the file \"<filename>.txt\"\n\nDo not include any other text.\n\n## FILENAME RULES\n\nWhen you use `write_file`:\n\n- Always convert the search topic to lowercase.\n- Replace spaces with underscores `_`.\n- Remove special characters (keep only letters, numbers, underscores).\n- Limit filename length to 255 characters maximum (including .txt).\n- Always add `.txt` at the end.\n\nExample:  \nSearch term: \"Multi Agent Orchestration\" → Filename: `multi_agent_orchestration.txt`\n\nWrite in the same language as the search term.\n\n## RETRIEVAL QUERY RULE\n\n- When you call `vector_search`, use the provided search term as-is for the `query` argument.\n- Call `vector_search` with `query`.\n- If the input includes target filenames and you are using `vector_search`, pass them via `filenames`.\n- You may also pass `domain_hint` only when the domain is clearly and explicitly identified in the syllabus or conversation context.\n- Do not rewrite, simplify, or replace the query with a vaguer version.\nThe absolute path to **temporary filesystem** is `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmpgnxp44k_`. You MUST use it to write and read temporary data.\nWhen calling write_file, always set `path` to `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmpgnxp44k_/<normalized_filename>.txt` and never write outside this directory.\n\n",
+   "role": "system"
+  },
+  {
+   "role": "user",
+   "content": "Terme de recherche: retrieval pipeline context injection grounding generation RAG query vector search results prompt context augmentation LLM\nRaison de la recherche: This search addresses Section 2 concept 10 — the retrieval-to-generation pipeline, showing how context is injected into generation. It cross-references H4 and H3 for grounding and context injection.\nFichiers cibles: Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md, Text_generation.md"
+  },
+  {
+   "role": "assistant",
+   "tool_calls": [
+    {
+     "id": "chatcmpl-tool-9eb6c370e7a1295d",
+     "type": "function",
+     "function": {
+      "name": "vector_search",
+      "arguments": "{\"query\": \"retrieval pipeline context injection grounding generation RAG query vector search results prompt context augmentation LLM\", \"domain_hint\": \"retrieval augmented generation\", \"filenames\": [\"Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md\", \"Text_generation.md\"]}"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "chatcmpl-tool-9eb6c370e7a1295d",
+   "content": "{'query': 'retrieval pipeline context injection grounding generation RAG query vector search results prompt context augmentation LLM', 'effective_queries': ['retrieval pipeline context injection grounding generation RAG query vector search results prompt context augmentation LLM'], 'observability': {'rewrite_requested': False, 'rewrite_applied': False, 'rewrite_mode': 'none', 'rewrite_input_query': 'retrieval pipeline context injection grounding generation RAG query vector search results prompt context augmentation LLM', 'effective_queries_count': 1, 'rewrite_backend': 'none_or_fallback', 'rewrite_domain_hint': 'retrieval augmented generation', 'rewrite_domain_hint_source': 'agent_override', 'top_k': 12, 'score_threshold': None, 'filenames': ['Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'Text_generation.md']}, 'results': [{'document': 'ariety of questions that cover different aspects of the topic. Make sure they are complete questions, and that they are related to the original question. Output one question per line. Do not number the questions.”\\n2.\\n* Retrieve Results\\n* : Use the original query and the additional queries to retrieve results from the vector database.\\n3.\\n* Aggregate and Process\\n* : Send all retrieved responses to the LLM for further processing.', 'metadata': {'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774', 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739', 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'chunk_index': 18}, 'score': 0.8165430845039131}, {'document': '# Advanced Retrieval for Retrieval-Augmented Generation | by Callum Macpherson\\n**Source:** https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774\\n## Contenu', 'metadata': {'chunk_index': 0, 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774', 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739'}, 'score': 0.7559264063311558}, {'document': 't_abc123\",\\n\"variables\": {\\n\"topic\": \"Dragons\",\\n\"reference_pdf\": {\\n\"type\": \"input_file\",\\n\"file_id\": \"file-abc123\"\\n}\\n}\\n}\\n}\\'\\n## Next steps\\nNow that you known the basics of text inputs and outputs, you might want to check out one of these resources next.\\n[Build a prompt in the PlaygroundUse the Playground to develop and iterate on prompts.]() [Generate JSON data with Structured OutputsEnsure JSON data emitted from a model conforms to a JSON schema.]() [Full API referenceCheck out all the options for text generation in the API reference.]()\\n---', 'metadata': {'chunk_index': 25, 'filename': 'Text_generation.md', 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat', 'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5'}, 'score': 0.7281490480324976}, {'document': 'Doe\",\\n\"product\": \"40oz juice box\"\\n}\\n}\\n}\\'\\nVariables with file input\\nPrompt template with file input variable\\njavascript\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n11\\n12\\n13\\n14\\n15\\n16\\n17\\n18\\n19\\n20\\n21\\n22\\n23\\n24\\n25\\nimport fs from \"fs\";\\nimport OpenAI from \"openai\";\\nconst client = new OpenAI();\\n// Upload a PDF we will reference in the prompt variables\\nconst file = await client.files.create({\\nfile: fs.createReadStream(\"draconomicon.pdf\"),\\npurpose: \"user_data\",\\n});\\nconst response = await client.responses.create({\\nmodel: \"gpt-5\",\\nprompt: {\\nid: \"pmpt_abc123\",\\nvariables: {\\ntopic: \"Dragons\",\\nreference_pdf: {\\ntype: \"input_file\",\\nfile_id: file.id,\\n},\\n},\\n},\\n});\\nconsole.log(response.output_text);', 'metadata': {'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5', 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat', 'chunk_index': 22, 'filename': 'Text_generation.md'}, 'score': 0.7245434590078598}, {'document': 'query = \"What has been the investment in research and development?\"\\nresults = chroma_collection.query(query_texts=query, n_results=10, include=[\\'documents\\', \\'embeddings\\'])\\nretrieved_documents = results[\\'documents\\'][0]for document in results[\\'documents\\'][0]:\\nprint(word_wrap(document))\\nprint(\\'\\')\\nThen, use a Cross-Encoder to predict scores for each retrieved chunk of information with the query. Re-rank the chunks based on the scores given and discard any chunks which are not contextually relevant to the prompt.\\nfrom sentence_transformers import CrossEncoder\\ncross_encoder = CrossEncoder(\\'cross-encoder/ms-marco-MiniLM-L-6-v2\\')', 'metadata': {'chunk_index': 25, 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739', 'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774', 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md'}, 'score': 0.7147499954613374}, {'document': '\"topic\": \"Dragons\",\\n\"reference_pdf\": {\\n\"type\": \"input_file\",\\n\"file_id\": file.id,\\n},\\n},\\n},\\n)\\nprint(response.output_text)\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n11\\n12\\n13\\n14\\n# Assume you have already uploaded the PDF and obtained FILE_ID\\ncurl https://api.openai.com/v1/responses -H \"Authorization: Bearer $OPENAI_API_KEY\" -H \"Content-Type: application/json\" -d \\'{\\n\"model\": \"gpt-5\",\\n\"prompt\": {\\n\"id\": \"pmpt_abc123\",\\n\"variables\": {\\n\"topic\": \"Dragons\",\\n\"reference_pdf\": {\\n\"type\": \"input_file\",\\n\"file_id\": \"file-abc123\"\\n}\\n}\\n}\\n}\\'', 'metadata': {'filename': 'Text_generation.md', 'chunk_index': 24, 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat', 'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5'}, 'score': 0.7094868315093573}, {'document': 'low\"},\\ninstructions=\"Talk like a pirate.\",\\ninput=\"Are semicolons optional in JavaScript?\",\\n)\\nprint(response.output_text)\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\ncurl \"https://api.openai.com/v1/responses\" \\\\\\n-H \"Content-Type: application/json\" \\\\\\n-H \"Authorization: Bearer $OPENAI_API_KEY\" \\\\\\n-d \\'{\\n\"model\": \"gpt-5\",\\n\"reasoning\": {\"effort\": \"low\"},\\n\"instructions\": \"Talk like a pirate.\",\\n\"input\": \"Are semicolons optional in JavaScript?\"\\n}\\'\\nThe example above is roughly equivalent to using the following input messages in the `input` array:\\nGenerate text with messages using different roles\\njavascript', 'metadata': {'filename': 'Text_generation.md', 'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5', 'chunk_index': 12, 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat'}, 'score': 0.7033419298831818}, {'document': 'topic: \"Dragons\",\\nreference_pdf: {\\ntype: \"input_file\",\\nfile_id: file.id,\\n},\\n},\\n},\\n});\\nconsole.log(response.output_text);\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n11\\n12\\n13\\n14\\n15\\n16\\n17\\n18\\n19\\n20\\n21\\n22\\n23\\n24\\n25\\nimport openai, pathlib\\nclient = openai.OpenAI()\\n# Upload a PDF we will reference in the variables\\nfile = client.files.create(\\nfile=open(\"draconomicon.pdf\", \"rb\"),\\npurpose=\"user_data\",\\n)\\nresponse = client.responses.create(\\nmodel=\"gpt-5\",\\nprompt={\\n\"id\": \"pmpt_abc123\",\\n\"variables\": {\\n\"topic\": \"Dragons\",\\n\"reference_pdf\": {\\n\"type\": \"input_file\",\\n\"file_id\": file.id,\\n},\\n},\\n},\\n)\\nprint(response.output_text)', 'metadata': {'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5', 'chunk_index': 23, 'filename': 'Text_generation.md', 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat'}, 'score': 0.6913408903621702}, {'document': 'ries using an LLM. This approach diversifies the search and increases the likelihood of retrieving comprehensive information relevant to the original query.\\nPress enter or click to view image in full size\\n_Figure 7: Query Expansion with Multiple Queries_\\n### How It Works:\\n1.\\n* Generate Additional Queries\\n* : Prompt the LLM to suggest additional related questions. For instance: “You are a helpful expert financial research assistant. Your users are asking questions about an annual report. Suggest up to five additional related questions to help them find the information they need, for the provided question. Suggest only short questions without compound sentences. Suggest a variety of questions that cover different aspects of the topic. Make sure they are complete questions, and that they are', 'metadata': {'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774', 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739', 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'chunk_index': 17}, 'score': 0.6900736425889162}, {'document': 'def augment_query_generated(query, model=\"gpt-3.5-turbo\"):\\nmessages = [\\n{\\n\"role\": \"system\",\\n\"content\": \"You are a helpful expert financial research assistant. Provide an example answer to the given question, that might be found in a document like an annual report. \"\\n},\\n{\"role\": \"user\", \"content\": query}\\n]\\nresponse = openai_client.chat.completions.create(\\nmodel=model,\\nmessages=messages,\\n)\\ncontent = response.choices[0].message.content\\nreturn content\\noriginal_query = \"Was there significant turnover in the executive team?\"\\nhypothetical_answer = augment_query_generated(original_query)\\njoint_query = f\"{original_query} {hypothetical_answer}\"\\nprint(word_wrap(joint_query))', 'metadata': {'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739', 'chunk_index': 14, 'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774'}, 'score': 0.6866289476667071}]}"
+  }
+ ],
+ "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+ "reasoning_effort": "none",
+ "temperature": 1.0,
+ "tools": [
+  {
+   "type": "function",
+   "function": {
+    "name": "write_file",
+    "description": "Create a new file or completely overwrite an existing file with new content. Use with caution as it will overwrite existing files without warning. Handles text content with proper encoding. Only works within allowed directories.",
+    "parameters": {
+     "$schema": "http://json-schema.org/draft-07/schema#",
+     "type": "object",
+     "properties": {
+      "path": {
+       "type": "string"
+      },
+      "content": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "path",
+      "content"
+     ]
+    },
+    "strict": false
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "vector_search",
+    "description": "Recherche sémantique dans la base vectorielle de la session.",
+    "parameters": {
+     "properties": {
+      "query": {
+       "description": "La requête de recherche sémantique.",
+       "title": "Query",
+       "type": "string"
+      },
+      "domain_hint": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — indice de domaine pour contextualiser la recherche.",
+       "title": "Domain Hint"
+      },
+      "filenames": {
+       "anyOf": [
+        {
+         "items": {
+          "type": "string"
+         },
+         "type": "array"
+        },
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — restreint la recherche à ces fichiers. Utiliser les\nnoms exacts tels que stockés dans la base de connaissances (champ\n'filename' des entrées), pas les titres de documents. En cas de doute,\nomettre ce paramètre (la recherche porte alors sur tout le corpus).",
+       "title": "Filenames"
+      }
+     },
+     "required": [
+      "query",
+      "domain_hint",
+      "filenames"
+     ],
+     "title": "vector_search_args",
+     "type": "object",
+     "additionalProperties": false
+    },
+    "strict": true
+   }
+  }
+ ],
+ "top_p": 0.95
+}

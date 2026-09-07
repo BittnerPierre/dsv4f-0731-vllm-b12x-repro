@@ -1,0 +1,20 @@
+server OK: http://spark1:8000/v1 serves deepseek-ai/DeepSeek-V4-Flash-0731
+  short probe 'reply pong':  0.8s ok  'pong'
+  short probe 'filename only':  0.9s ok  'probe.txt'
+replaying the full recorded run (47 requests) 12 times, nonce=2, time-scale=0.08
+
+  loop 01/12  wall=   330s  generated=15853  slowest=#02 171s  errors=0  server=up  spec-accept(total)= 62%
+  loop 02/12  wall=   336s  generated=16467  slowest=#29 146s  errors=0  server=up  spec-accept(total)= 63%
+  loop 03/12  wall=   336s  generated=15057  slowest=#29 146s  errors=0  server=up  spec-accept(total)= 63%
+  loop 04/12  wall=   325s  generated=14287  slowest=#02 146s  errors=0  server=up  spec-accept(total)= 63%
+  loop 05/12  wall=   329s  generated=15635  slowest=#02 168s  errors=0  server=up  spec-accept(total)= 64%
+  loop 06/12  wall=   339s  generated=15400  slowest=#29 150s  errors=0  server=up  spec-accept(total)= 64%
+  loop 07/12  wall=   334s  generated=15756  slowest=#28 146s  errors=0  server=up  spec-accept(total)= 64%
+  loop 08/12  wall=   336s  generated=15725  slowest=#28 151s  errors=0  server=up  spec-accept(total)= 64%
+  loop 09/12  wall=   329s  generated=14902  slowest=#02 157s  errors=0  server=up  spec-accept(total)= 65%
+  loop 10/12  wall=   332s  generated=15157  slowest=#02 162s  errors=0  server=up  spec-accept(total)= 65%
+  loop 11/12  wall=   323s  generated=13615  slowest=#02 163s  errors=0  server=up  spec-accept(total)= 65%
+  loop 12/12  wall=   333s  generated=17534  slowest=#02 171s  errors=0  server=up  spec-accept(total)= 65%
+
+CLEAN: 12 full-run loops completed, server still up
+exit=0 13:05:36

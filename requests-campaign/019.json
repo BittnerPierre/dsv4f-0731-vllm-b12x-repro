@@ -1,0 +1,133 @@
+{
+ "messages": [
+  {
+   "content": "# System context\nYou are part of a multi-agent system called the Agents SDK, designed to make agent coordination and execution easy. Agents uses two primary abstraction: **Agents** and **Handoffs**. An agent encompasses instructions and tools and can hand off a conversation to another agent when appropriate. Handoffs are achieved by calling a handoff function, generally named `transfer_to_<agent_name>`. Transfers between agents are handled seamlessly in the background; do not mention or draw attention to these transfers in your conversation with the user.\n\n\nYou are a research assistant.\n\nGiven a search term, search the web or vector store for that term and produce a **clear, concise, relevant summary**.\n\nYour summary must follow these rules:\n\n- **2–3 short paragraphs maximum**\n- **Max 300 words**\n- Use bullet points only if needed for clarity.\n- No unnecessary background — focus only on the main facts.\n- No filler or redundant phrases.\n- No commentary, disclaimers or explanations — only the raw summary.\n- Use only retrieved evidence chunks; do not invent missing facts.\n- Add a bracket citation after each key claim.\n- Prefer the format [document_id:chunk_index] when retrieval metadata provides document_id.\n- If document_id is unavailable, use [filename:chunk_index].\n- Do not omit bracket citations when the retrieval result gives you enough metadata to cite.\n- If evidence is missing, explicitly state that the information is unavailable.\n\n**Delivery rule:**\n\n- When done, you MUST store the entire summary using the `write_file` function.\n- DO NOT print the summary directly in your reply — only call `write_file`.\n- The `filename` must be the search term.\n- The `content` must be your summary text.\n- If you do not use `write_file`, your task is incomplete and will be rejected.\n- In your final reply, return only the name of the file \"<filename>.txt\"\n\nDo not include any other text.\n\n## FILENAME RULES\n\nWhen you use `write_file`:\n\n- Always convert the search topic to lowercase.\n- Replace spaces with underscores `_`.\n- Remove special characters (keep only letters, numbers, underscores).\n- Limit filename length to 255 characters maximum (including .txt).\n- Always add `.txt` at the end.\n\nExample:  \nSearch term: \"Multi Agent Orchestration\" → Filename: `multi_agent_orchestration.txt`\n\nWrite in the same language as the search term.\n\n## RETRIEVAL QUERY RULE\n\n- When you call `vector_search`, use the provided search term as-is for the `query` argument.\n- Call `vector_search` with `query`.\n- If the input includes target filenames and you are using `vector_search`, pass them via `filenames`.\n- You may also pass `domain_hint` only when the domain is clearly and explicitly identified in the syllabus or conversation context.\n- Do not rewrite, simplify, or replace the query with a vaguer version.\nThe absolute path to **temporary filesystem** is `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp8uht_l02`. You MUST use it to write and read temporary data.\nWhen calling write_file, always set `path` to `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp8uht_l02/<normalized_filename>.txt` and never write outside this directory.\n\n",
+   "role": "system"
+  },
+  {
+   "role": "user",
+   "content": "Terme de recherche: embeddings vector search similarity search vector store and ChromaDB in retrieval augmented generation RAG pipeline\nRaison de la recherche: To extract the technical foundation of embeddings, vector stores, and similarity search as used in retrieval pipelines, and to see how ChromaDB is described as a vector database implementation.\nFichiers cibles: Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md, Agents_1.md"
+  },
+  {
+   "role": "assistant",
+   "tool_calls": [
+    {
+     "id": "chatcmpl-tool-a840a747d3fc9e56",
+     "type": "function",
+     "function": {
+      "name": "vector_search",
+      "arguments": "{\"query\": \"embeddings vector search similarity search vector store and ChromaDB in retrieval augmented generation RAG pipeline\", \"domain_hint\": \"retrieval augmented generation\", \"filenames\": [\"Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md\", \"Agents_1.md\"]}"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "chatcmpl-tool-a840a747d3fc9e56",
+   "content": "{'query': 'embeddings vector search similarity search vector store and ChromaDB in retrieval augmented generation RAG pipeline', 'effective_queries': ['embeddings vector search similarity search vector store and ChromaDB in retrieval augmented generation RAG pipeline'], 'observability': {'rewrite_requested': False, 'rewrite_applied': False, 'rewrite_mode': 'none', 'rewrite_input_query': 'embeddings vector search similarity search vector store and ChromaDB in retrieval augmented generation RAG pipeline', 'effective_queries_count': 1, 'rewrite_backend': 'none_or_fallback', 'rewrite_domain_hint': 'retrieval augmented generation', 'rewrite_domain_hint_source': 'agent_override', 'top_k': 12, 'score_threshold': None, 'filenames': ['Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'Agents_1.md']}, 'results': [{'document': 'ariety of questions that cover different aspects of the topic. Make sure they are complete questions, and that they are related to the original question. Output one question per line. Do not number the questions.”\\n2.\\n* Retrieve Results\\n* : Use the original query and the additional queries to retrieve results from the vector database.\\n3.\\n* Aggregate and Process\\n* : Send all retrieved responses to the LLM for further processing.', 'metadata': {'chunk_index': 18, 'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774', 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739', 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md'}, 'score': 0.7918592435352809}, {'document': \"from helper_utils import load_chroma, word_wrap\\nfrom chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction\\nimport umap\\nimport numpy as np\\nfrom tqdm import tqdm\\nembedding_function = SentenceTransformerEmbeddingFunction()\\nchroma_collection = load_chroma(filename='microsoft_annual_report_2022.pdf', collection_name='microsoft_annual_report_2022', embedding_function=embedding_function)\\nchroma_collection.count()\\nembeddings = chroma_collection.get(include=['embeddings'])['embeddings']\\numap_transform = umap.UMAP(random_state=0, transform_seed=0).fit(embeddings) #random_state and transform_state to 0 for reproducible results\\ndef project_embeddings(embeddings, umap_transform):\\numap_embeddings = np.empty((len(embeddings),2)) #2 dimensions\\nfor i, embedding in enumerate(tqdm(em\", 'metadata': {'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774', 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739', 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'chunk_index': 5}, 'score': 0.7311651848385587}, {'document': 'query = \"What has been the investment in research and development?\"\\nresults = chroma_collection.query(query_texts=query, n_results=10, include=[\\'documents\\', \\'embeddings\\'])\\nretrieved_documents = results[\\'documents\\'][0]for document in results[\\'documents\\'][0]:\\nprint(word_wrap(document))\\nprint(\\'\\')\\nThen, use a Cross-Encoder to predict scores for each retrieved chunk of information with the query. Re-rank the chunks based on the scores given and discard any chunks which are not contextually relevant to the prompt.\\nfrom sentence_transformers import CrossEncoder\\ncross_encoder = CrossEncoder(\\'cross-encoder/ms-marco-MiniLM-L-6-v2\\')', 'metadata': {'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'chunk_index': 25, 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739', 'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774'}, 'score': 0.7136583576137748}, {'document': '# Advanced Retrieval for Retrieval-Augmented Generation | by Callum Macpherson\\n**Source:** https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774\\n## Contenu', 'metadata': {'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739', 'chunk_index': 0, 'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774', 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md'}, 'score': 0.705957847242822}, {'document': 'elevant or a distraction. Figure 3 shows a visualisation for an in-scope query and the retrieved chunks of information using a vector similarity matrix. The embedding for the query is shown by the red ‘X’ and the retrieved embeddings are shown by the green ‘O’.\\n_Figure 3: UMAP Projection of an In scope query_\\nOne might notice that the points on the 2D visualization don’t always align perfectly with their nearest neighbors in the original high-dimensional space. This discrepancy arises because the embedding model used lacks specific knowledge of the tasks or queries it’s being applied to. Thus, retrieving information for specific tasks can be more challenging when relying solely on a general representation.\\n## Understanding Distractors\\nIn the realm of information retrieval, distractors refe', 'metadata': {'chunk_index': 9, 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774', 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739'}, 'score': 0.6833007581085251}, {'document': 'alues.\\nFor example, given the user query “How many kilograms are 40 pounds?”, the agent might decide that it needs the tool `lbs_to_kg_tool` with one parameter value of 40. The agent’s response might look like this.', 'metadata': {'filename': 'Agents_1.md', 'chunk_index': 46, 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'source': 'https://huyenchip.com/2025/01/07/agents.html'}, 'score': 0.6718448932656478}, {'document': 'Propose a plan to solve the task. You have access to 5 actions:\\n* get_today_date()\\n* fetch_top_products(start_date, end_date, num_products)\\n* fetch_product_info(product_name)\\n* generate_query(task_history, tool_output)\\n* generate_response(query)\\nThe plan must be a sequence of valid actions.\\nExamples\\nTask: \"Tell me about Fruity Fedora\"\\nPlan: [fetch_product_info, generate_query, generate_response]\\nTask: \"What was the best selling product last week?\"\\nPlan: [fetch_top_products, generate_query, generate_response]\\nTask: {USER INPUT}\\nPlan:', 'metadata': {'filename': 'Agents_1.md', 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'chunk_index': 39, 'source': 'https://huyenchip.com/2025/01/07/agents.html'}, 'score': 0.6312783392682967}, {'document': 'response = ModelResponse(\\nfinish_reason=\\'tool_calls\\',\\nmessage=chat.Message(\\ncontent=None,\\nrole=\\'assistant\\',\\ntool_calls=[\\nToolCall(\\nfunction=Function(\\narguments=\\'{\"lbs\":40}\\',\\nname=\\'lbs_to_kg\\'),\\ntype=\\'function\\')\\n])\\n)', 'metadata': {'chunk_index': 47, 'source': 'https://huyenchip.com/2025/01/07/agents.html', 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'filename': 'Agents_1.md'}, 'score': 0.6264633989229027}, {'document': 'wsing, a model won’t be able to tell you about the weather, news, upcoming events, stock prices, flight status, etc.\\nI use web browsing as an umbrella term to cover all tools that access the internet, including web browsers and APIs such as search APIs, news APIs, GitHub APIs, or social media APIs.\\nWhile web browsing allows your agent to reference up-to-date information to generate better responses and reduce hallucinations, it can also open up your agent to the cesspools of the internet. Select your Internet APIs with care.\\n### Capability extension\\nYou might also consider tools that address the inherent limitations of AI models. They are easy ways to give your model a performance boost. For example, AI models are notorious for being bad at math. If you ask a model what is 199,999 divided', 'metadata': {'chunk_index': 14, 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'source': 'https://huyenchip.com/2025/01/07/agents.html', 'filename': 'Agents_1.md'}, 'score': 0.6154612583016799}, {'document': 'rformance boost. For example, AI models are notorious for being bad at math. If you ask a model what is 199,999 divided by 292, the model will likely fail. However, this calculation would be trivial if the model had access to a calculator. Instead of trying to train the model to be good at arithmetic, it’s a lot more resource-efficient to just give the model access to a tool.\\nOther simple tools that can significantly boost a model’s capability include a calendar, timezone converter, unit converter (e.g., from lbs to kg), and translator that can translate to and from the languages that the model isn’t good at.\\nMore complex but powerful tools are code interpreters. Instead of training a model to understand code, you can give it access to a code interpreter to execute a piece of code, return', 'metadata': {'filename': 'Agents_1.md', 'chunk_index': 15, 'source': 'https://huyenchip.com/2025/01/07/agents.html', 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4'}, 'score': 0.6121534434840199}]}"
+  },
+  {
+   "role": "assistant",
+   "tool_calls": [
+    {
+     "id": "chatcmpl-tool-bc6a7c27dcd9650a",
+     "type": "function",
+     "function": {
+      "name": "write_file",
+      "arguments": "{\"path\": \"/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp8uht_l02/embeddings_vector_search_similarity_search_vector_store_and_chromadb_in_retrieval_augmented_generation_rag_pipeline.txt\", \"content\": \"The RAG pipeline relies on embeddings, vector stores, and similarity search as its technical foundation. Documents are chunked and converted into embeddings using models such as `SentenceTransformerEmbeddingFunction` (via chromadb's embedding functions), which project text into high-dimensional vector space [d28458c1-fe61-4da1-b159-82ec7cd24739:5]. These embeddings are stored in a vector database and queried using similarity search — the retrieval step returns the most relevant chunks by matching the query embedding against stored ones [d28458c1-fe61-4da1-b159-82ec7cd24739:25].\\n\\nChromaDB is described as the vector database implementation used throughout the retrieval workflow. It is loaded via a `load_chroma` helper that indexes a source document (e.g., `microsoft_annual_report_2022.pdf`) under a collection name, with an embedding function supplied at load time. Queries are issued through `chroma_collection.query(query_texts=..., n_results=..., include=['documents','embeddings'])`, which retrieves both the raw documents and their embeddings [d28458c1-fe61-4da1-b159-82ec7cd24739:5][d28458c1-fe61-4da1-b159-82ec7cd24739:25].\\n\\nAdvanced retrieval extends basic similarity search: the original query is expanded into multiple related questions, results are aggregated from the vector database, and then all retrieved responses are sent to the LLM for processing [d28458c1-fe61-4da1-b159-82ec7cd24739:18]. Retrieved chunks can also be re-ranked using a Cross-Encoder (e.g., `cross-encoder/ms-marco-MiniLM-L-6-v2`) to discard contextually irrelevant chunks [d28458c1-fe61-4da1-b159-82ec7cd24739:25]. Embeddings can be visualized in 2D via UMAP projection, showing that the embedding model's general representation may not align perfectly with nearest neighbors in high-dimensional space, making task-specific retrieval more challenging [d28458c1-fe61-4da1-b159-82ec7cd24739:9].\\n\\nInformation on ChromaDB as a standalone vector database beyond its usage in this RAG workflow was not available in the retrieved sources.\\n\"}"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "chatcmpl-tool-bc6a7c27dcd9650a",
+   "content": "{\"type\":\"text\",\"text\":\"Successfully wrote to /private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp8uht_l02/embeddings_vector_search_similarity_search_vector_store_and_chromadb_in_retrieval_augmented_generation_rag_pipeline.txt\",\"annotations\":null,\"meta\":null}"
+  }
+ ],
+ "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+ "reasoning_effort": "none",
+ "temperature": 1.0,
+ "tools": [
+  {
+   "type": "function",
+   "function": {
+    "name": "write_file",
+    "description": "Create a new file or completely overwrite an existing file with new content. Use with caution as it will overwrite existing files without warning. Handles text content with proper encoding. Only works within allowed directories.",
+    "parameters": {
+     "$schema": "http://json-schema.org/draft-07/schema#",
+     "type": "object",
+     "properties": {
+      "path": {
+       "type": "string"
+      },
+      "content": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "path",
+      "content"
+     ]
+    },
+    "strict": false
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "vector_search",
+    "description": "Recherche sémantique dans la base vectorielle de la session.",
+    "parameters": {
+     "properties": {
+      "query": {
+       "description": "La requête de recherche sémantique.",
+       "title": "Query",
+       "type": "string"
+      },
+      "domain_hint": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — indice de domaine pour contextualiser la recherche.",
+       "title": "Domain Hint"
+      },
+      "filenames": {
+       "anyOf": [
+        {
+         "items": {
+          "type": "string"
+         },
+         "type": "array"
+        },
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — restreint la recherche à ces fichiers. Utiliser les\nnoms exacts tels que stockés dans la base de connaissances (champ\n'filename' des entrées), pas les titres de documents. En cas de doute,\nomettre ce paramètre (la recherche porte alors sur tout le corpus).",
+       "title": "Filenames"
+      }
+     },
+     "required": [
+      "query",
+      "domain_hint",
+      "filenames"
+     ],
+     "title": "vector_search_args",
+     "type": "object",
+     "additionalProperties": false
+    },
+    "strict": true
+   }
+  }
+ ],
+ "top_p": 0.95
+}

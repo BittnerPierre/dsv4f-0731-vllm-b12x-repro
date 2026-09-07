@@ -1,0 +1,26 @@
+vLLM up 19:43:49
+[court] OK    1.4s prompt=90 completion=13 tool_calls=0 -> 'OK'
+    santé serveur après : UP
+[kit 47] OK   19.7s prompt=25673 completion=34 tool_calls=0 -> 'amazon_alphabet_capex_annual_series_fy2020_to_fy2025_trend_endpoints_growth_direction_abso'
+    santé serveur après : UP
+warm-up terminé, serveur UP
+server OK: http://spark1:8000/v1 serves deepseek-ai/DeepSeek-V4-Flash-0731
+  short probe 'reply pong':  0.6s ok  'pong'
+  short probe 'filename only':  2.8s ok  'probe.txt'
+replaying the full recorded run (47 requests) 12 times, nonce=2, order=deps
+
+  loop 01/12  wall=   369s  generated=14710  slowest=#28 103s  errors=0  server=up  spec-accept(total)= 73%
+  loop 02/12  wall=   351s  generated=14162  slowest=#29 112s  errors=0  server=up  spec-accept(total)= 72%
+  loop 03/12  wall=   377s  generated=14615  slowest=#28 110s  errors=0  server=up  spec-accept(total)= 72%
+  loop 04/12  wall=   369s  generated=15482  slowest=#29 120s  errors=0  server=up  spec-accept(total)= 73%
+  loop 05/12  wall=   382s  generated=15653  slowest=#29 117s  errors=0  server=up  spec-accept(total)= 73%
+  loop 06/12  wall=   383s  generated=16815  slowest=#33 118s  errors=0  server=up  spec-accept(total)= 73%
+  loop 07/12  wall=   350s  generated=13368  slowest=#29 115s  errors=0  server=up  spec-accept(total)= 73%
+  loop 08/12  wall=   370s  generated=15132  slowest=#33 112s  errors=0  server=up  spec-accept(total)= 73%
+  loop 09/12  wall=   382s  generated=16346  slowest=#29 116s  errors=0  server=up  spec-accept(total)= 73%
+  loop 10/12  wall=   368s  generated=15311  slowest=#29 112s  errors=0  server=up  spec-accept(total)= 73%
+  loop 11/12  wall=   379s  generated=15743  slowest=#29 115s  errors=0  server=up  spec-accept(total)= 73%
+  loop 12/12  wall=   381s  generated=16251  slowest=#29 121s  errors=0  server=up  spec-accept(total)= 73%
+
+CLEAN: 12 full-run loops completed, server still up
+exit=0 20:58:36

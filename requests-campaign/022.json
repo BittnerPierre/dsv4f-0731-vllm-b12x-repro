@@ -1,0 +1,133 @@
+{
+ "messages": [
+  {
+   "content": "# System context\nYou are part of a multi-agent system called the Agents SDK, designed to make agent coordination and execution easy. Agents uses two primary abstraction: **Agents** and **Handoffs**. An agent encompasses instructions and tools and can hand off a conversation to another agent when appropriate. Handoffs are achieved by calling a handoff function, generally named `transfer_to_<agent_name>`. Transfers between agents are handled seamlessly in the background; do not mention or draw attention to these transfers in your conversation with the user.\n\n\nYou are a research assistant.\n\nGiven a search term, search the web or vector store for that term and produce a **clear, concise, relevant summary**.\n\nYour summary must follow these rules:\n\n- **2–3 short paragraphs maximum**\n- **Max 300 words**\n- Use bullet points only if needed for clarity.\n- No unnecessary background — focus only on the main facts.\n- No filler or redundant phrases.\n- No commentary, disclaimers or explanations — only the raw summary.\n- Use only retrieved evidence chunks; do not invent missing facts.\n- Add a bracket citation after each key claim.\n- Prefer the format [document_id:chunk_index] when retrieval metadata provides document_id.\n- If document_id is unavailable, use [filename:chunk_index].\n- Do not omit bracket citations when the retrieval result gives you enough metadata to cite.\n- If evidence is missing, explicitly state that the information is unavailable.\n\n**Delivery rule:**\n\n- When done, you MUST store the entire summary using the `write_file` function.\n- DO NOT print the summary directly in your reply — only call `write_file`.\n- The `filename` must be the search term.\n- The `content` must be your summary text.\n- If you do not use `write_file`, your task is incomplete and will be rejected.\n- In your final reply, return only the name of the file \"<filename>.txt\"\n\nDo not include any other text.\n\n## FILENAME RULES\n\nWhen you use `write_file`:\n\n- Always convert the search topic to lowercase.\n- Replace spaces with underscores `_`.\n- Remove special characters (keep only letters, numbers, underscores).\n- Limit filename length to 255 characters maximum (including .txt).\n- Always add `.txt` at the end.\n\nExample:  \nSearch term: \"Multi Agent Orchestration\" → Filename: `multi_agent_orchestration.txt`\n\nWrite in the same language as the search term.\n\n## RETRIEVAL QUERY RULE\n\n- When you call `vector_search`, use the provided search term as-is for the `query` argument.\n- Call `vector_search` with `query`.\n- If the input includes target filenames and you are using `vector_search`, pass them via `filenames`.\n- You may also pass `domain_hint` only when the domain is clearly and explicitly identified in the syllabus or conversation context.\n- Do not rewrite, simplify, or replace the query with a vaguer version.\nThe absolute path to **temporary filesystem** is `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp8uht_l02`. You MUST use it to write and read temporary data.\nWhen calling write_file, always set `path` to `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp8uht_l02/<normalized_filename>.txt` and never write outside this directory.\n\n",
+   "role": "system"
+  },
+  {
+   "role": "user",
+   "content": "Terme de recherche: how retrieval injects context into prompt for generation grounding RAG workflow document retrieval to answer synthesis\nRaison de la recherche: To understand how retrieved documents are injected into the prompt to ground generation, and how the overall RAG workflow is structured from retrieval to answer synthesis.\nFichiers cibles: Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md, Agents_1.md"
+  },
+  {
+   "role": "assistant",
+   "tool_calls": [
+    {
+     "id": "chatcmpl-tool-a9a8f08fbbd80f00",
+     "type": "function",
+     "function": {
+      "name": "vector_search",
+      "arguments": "{\"query\": \"how retrieval injects context into prompt for generation grounding RAG workflow document retrieval to answer synthesis\", \"domain_hint\": \"RAG\", \"filenames\": [\"Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md\", \"Agents_1.md\"]}"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "chatcmpl-tool-a9a8f08fbbd80f00",
+   "content": "{'query': 'how retrieval injects context into prompt for generation grounding RAG workflow document retrieval to answer synthesis', 'effective_queries': ['how retrieval injects context into prompt for generation grounding RAG workflow document retrieval to answer synthesis'], 'observability': {'rewrite_requested': False, 'rewrite_applied': False, 'rewrite_mode': 'none', 'rewrite_input_query': 'how retrieval injects context into prompt for generation grounding RAG workflow document retrieval to answer synthesis', 'effective_queries_count': 1, 'rewrite_backend': 'none_or_fallback', 'rewrite_domain_hint': 'RAG', 'rewrite_domain_hint_source': 'agent_override', 'top_k': 12, 'score_threshold': None, 'filenames': ['Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'Agents_1.md']}, 'results': [{'document': '# Advanced Retrieval for Retrieval-Augmented Generation | by Callum Macpherson\\n**Source:** https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774\\n## Contenu', 'metadata': {'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774', 'chunk_index': 0, 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739'}, 'score': 0.792192988795769}, {'document': 'ariety of questions that cover different aspects of the topic. Make sure they are complete questions, and that they are related to the original question. Output one question per line. Do not number the questions.”\\n2.\\n* Retrieve Results\\n* : Use the original query and the additional queries to retrieve results from the vector database.\\n3.\\n* Aggregate and Process\\n* : Send all retrieved responses to the LLM for further processing.', 'metadata': {'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739', 'chunk_index': 18, 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774'}, 'score': 0.7792262641640932}, {'document': 'query = \"What has been the investment in research and development?\"\\nresults = chroma_collection.query(query_texts=query, n_results=10, include=[\\'documents\\', \\'embeddings\\'])\\nretrieved_documents = results[\\'documents\\'][0]for document in results[\\'documents\\'][0]:\\nprint(word_wrap(document))\\nprint(\\'\\')\\nThen, use a Cross-Encoder to predict scores for each retrieved chunk of information with the query. Re-rank the chunks based on the scores given and discard any chunks which are not contextually relevant to the prompt.\\nfrom sentence_transformers import CrossEncoder\\ncross_encoder = CrossEncoder(\\'cross-encoder/ms-marco-MiniLM-L-6-v2\\')', 'metadata': {'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774', 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739', 'chunk_index': 25}, 'score': 0.7070606003893373}, {'document': '# Advanced Retrieval for Retrieval-Augmented Generation\\n[]()\\n[Callum Macpherson]()\\n14 min read\\n·\\nMay 22, 2024\\n[]()\\n\\\\--\\n[]()\\nListen\\nShare\\nPlease see the link to the GitHub Repo at the end of the post!\\n## Introduction\\nIn the ever-evolving landscape of information retrieval, relying solely on simple vector search methods often falls short of delivering effective results. While vectors that are semantically close in a particular embedding model may seem promising, they don’t always guarantee optimal outcomes out of the box. This blog delves into the nuances of advanced retrieval techniques for Retrieval-Augmented Generation (RAG), shedding light on the geometrical intuitions, challenges with chunk relevancy and noise, and how to enhance information retrieval using user feedback.\\nPress enter or', 'metadata': {'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'chunk_index': 1, 'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774', 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739'}, 'score': 0.6977347093740965}, {'document': 'an then be used to improve the retrieval process. For full details please refer to the original paper.\\nPress enter or click to view image in full size\\n_Figure 5: Query Expansion using Example Answers_\\n### How It Works:\\n1.\\n* Generate a Response\\n* : Take the original query and prompt the LLM to generate a hypothetical answer. For example, you might use a prompt like: “You are an expert helpful financial research assistant. Provide an example answer to the given question, that might be found in a document like an annual report.”\\n2.\\n* Concatenate and Query\\n* : Combine the original query with the generated response and use this expanded query to search the vector database.\\n3.\\n* Retrieve Results\\n* : Perform the retrieval as usual, but with the enhanced query.\\nPlease see below a code snippet to h', 'metadata': {'chunk_index': 13, 'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774', 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739'}, 'score': 0.690126100186089}, {'document': 'alues.\\nFor example, given the user query “How many kilograms are 40 pounds?”, the agent might decide that it needs the tool `lbs_to_kg_tool` with one parameter value of 40. The agent’s response might look like this.', 'metadata': {'chunk_index': 46, 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'filename': 'Agents_1.md', 'source': 'https://huyenchip.com/2025/01/07/agents.html'}, 'score': 0.6585553718625105}, {'document': 'the agent’s environment, there are many possible tools. Here are three categories of tools that you might want to consider: knowledge augmentation (i.e., context construction), capability extension, and tools that let your agent act upon its environment.\\n### Knowledge augmentation\\nI hope that this book, so far, has convinced you of the importance of having the relevant context for a model’s response quality. An important category of tools includes those that help augment the knowledge of your agent. Some of them have already been discussed: text retriever, image retriever, and SQL executor. Other potential tools include internal people search, an inventory API that returns the status of different products, Slack retrieval, an email reader, etc.\\nMany such tools augment a model with your or', 'metadata': {'filename': 'Agents_1.md', 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'chunk_index': 12, 'source': 'https://huyenchip.com/2025/01/07/agents.html'}, 'score': 0.6504114958410738}, {'document': '’s return to the RAG system with tabular data in the Kitty Vogue example above. This is a simple agent with three actions:\\n* response generation,\\n* SQL query generation, and\\n* SQL query execution.\\nGiven the query `\"Project the sales revenue for Fruity Fedora over the next three months\"`, the agent might perform the following sequence of actions:\\n1. Reason about how to accomplish this task. It might decide that to predict future sales, it first needs the sales numbers from the last five years. An agent’s reasoning can be shown as intermediate responses.\\n2. Invoke SQL query generation to generate the query to get sales numbers from the last five years.\\n3. Invoke SQL query execution to execute this query.\\n4. Reason about the tool outputs (outputs from the SQL query execution) and how they hel', 'metadata': {'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'source': 'https://huyenchip.com/2025/01/07/agents.html', 'filename': 'Agents_1.md', 'chunk_index': 7}, 'score': 0.6471331677103846}, {'document': 'examples. Using the exact function names also makes it harder to reuse a planner across different use cases with different tool APIs.\\nIf you’ve previously finetuned a model to generate plans based on the old tool inventory, you’ll need to finetune the model again on the new tool inventory.\\nTo avoid this problem, plans can also be generated using a more natural language, which is higher-level than domain-specific function names. For example, given the query “What’s the price of the best-selling product last week”, an agent can be instructed to output a plan that looks like this:\\n1. `get current date`\\n2. `retrieve the best-selling product last week`\\n3. `retrieve product information`\\n4. `generate query`\\n5. `generate response`\\nUsing more natural language helps your plan generator become robus', 'metadata': {'filename': 'Agents_1.md', 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'source': 'https://huyenchip.com/2025/01/07/agents.html', 'chunk_index': 50}, 'score': 0.6433111854587278}, {'document': 'There are two things to note about this example:\\n* The plan format used here—a list of functions whose parameters are inferred by the agent—is just one of many ways to structure the agent control flow.\\n* The `generate_query` function takes in the task’s current history and the most recent tool outputs to generate a query to be fed into the response generator. The tool output at each step is added to the task’s history.\\nGiven the user input “What’s the price of the best-selling product last week”, a generated plan might look like this:\\n1. `get_time()`\\n2. `fetch_top_products()`\\n3. `fetch_product_info()`\\n4. `generate_query()`\\n5. `generate_response()`\\nYou might wonder, “What about the parameters needed for each function?” The exact parameters are hard to predict in advance since they are often', 'metadata': {'chunk_index': 40, 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'source': 'https://huyenchip.com/2025/01/07/agents.html', 'filename': 'Agents_1.md'}, 'score': 0.6383379110672729}]}"
+  },
+  {
+   "role": "assistant",
+   "tool_calls": [
+    {
+     "id": "chatcmpl-tool-9bc4b7226f976472",
+     "type": "function",
+     "function": {
+      "name": "write_file",
+      "arguments": "{\"path\": \"/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp8uht_l02/how_retrieval_injects_context_into_prompt_for_generation_grounding_rag_workflow_document_retrieval_to_answer_synthesis.txt\", \"content\": \"In a RAG workflow, retrieved documents are injected into the prompt as context to ground the generation. The process starts with the user query, which is used to retrieve results from a vector database (e.g., via `chroma_collection.query`); the retrieved documents are then passed to the LLM alongside the original query for answer synthesis [d28458c1-fe61-4da1-b159-82ec7cd24739:18][d28458c1-fe61-4da1-b159-82ec7cd24739:25]. Advanced techniques enhance this injection by expanding the query first — for example, prompting the LLM to generate a hypothetical answer, then concatenating the original query with that generated response to search the vector database more effectively [d28458c1-fe61-4da1-b159-82ec7cd24739:13]. Another approach generates multiple additional questions covering different aspects of the original question, retrieves results for each, then aggregates all retrieved responses and sends them to the LLM for further processing [d28458c1-fe61-4da1-b159-82ec7cd24739:18]. Retrieved chunks can also be re-ranked with a Cross-Encoder (e.g., `cross-encoder/ms-marco-MiniLM-L-6-v2`) that scores each chunk against the query, discarding those not contextually relevant to the prompt [d28458c1-fe61-4da1-b159-82ec7cd24739:25].\\n\\nThe broader workflow is framed within agent architectures where knowledge augmentation tools (text retriever, image retriever, SQL executor, etc.) construct the context given to the model [967e61d4-de9b-4554-a51c-b286bf9fa8f4:12]. In such agent control flows, tool outputs are added to the task's history and fed into subsequent steps — for instance, a `generate_query` function takes the current task history and the most recent tool outputs to generate a query for the response generator [967e61d4-de9b-4554-a51c-b286bf9fa8f4:40]. The overall pipeline therefore alternates between reasoning, tool invocation (retrieval), and generation, where each retrieved or computed output becomes part of the context grounding the final answer [967e61d4-de9b-4554-a51c-b286bf9fa8f4:7][967e61d4-de9b-4554-a51c-b286bf9fa8f4:50].\"}"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "chatcmpl-tool-9bc4b7226f976472",
+   "content": "{\"type\":\"text\",\"text\":\"Successfully wrote to /private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp8uht_l02/how_retrieval_injects_context_into_prompt_for_generation_grounding_rag_workflow_document_retrieval_to_answer_synthesis.txt\",\"annotations\":null,\"meta\":null}"
+  }
+ ],
+ "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+ "reasoning_effort": "none",
+ "temperature": 1.0,
+ "tools": [
+  {
+   "type": "function",
+   "function": {
+    "name": "write_file",
+    "description": "Create a new file or completely overwrite an existing file with new content. Use with caution as it will overwrite existing files without warning. Handles text content with proper encoding. Only works within allowed directories.",
+    "parameters": {
+     "$schema": "http://json-schema.org/draft-07/schema#",
+     "type": "object",
+     "properties": {
+      "path": {
+       "type": "string"
+      },
+      "content": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "path",
+      "content"
+     ]
+    },
+    "strict": false
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "vector_search",
+    "description": "Recherche sémantique dans la base vectorielle de la session.",
+    "parameters": {
+     "properties": {
+      "query": {
+       "description": "La requête de recherche sémantique.",
+       "title": "Query",
+       "type": "string"
+      },
+      "domain_hint": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — indice de domaine pour contextualiser la recherche.",
+       "title": "Domain Hint"
+      },
+      "filenames": {
+       "anyOf": [
+        {
+         "items": {
+          "type": "string"
+         },
+         "type": "array"
+        },
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — restreint la recherche à ces fichiers. Utiliser les\nnoms exacts tels que stockés dans la base de connaissances (champ\n'filename' des entrées), pas les titres de documents. En cas de doute,\nomettre ce paramètre (la recherche porte alors sur tout le corpus).",
+       "title": "Filenames"
+      }
+     },
+     "required": [
+      "query",
+      "domain_hint",
+      "filenames"
+     ],
+     "title": "vector_search_args",
+     "type": "object",
+     "additionalProperties": false
+    },
+    "strict": true
+   }
+  }
+ ],
+ "top_p": 0.95
+}

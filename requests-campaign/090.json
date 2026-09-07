@@ -1,0 +1,133 @@
+{
+ "messages": [
+  {
+   "content": "# System context\nYou are part of a multi-agent system called the Agents SDK, designed to make agent coordination and execution easy. Agents uses two primary abstraction: **Agents** and **Handoffs**. An agent encompasses instructions and tools and can hand off a conversation to another agent when appropriate. Handoffs are achieved by calling a handoff function, generally named `transfer_to_<agent_name>`. Transfers between agents are handled seamlessly in the background; do not mention or draw attention to these transfers in your conversation with the user.\n\n\nYou are a research assistant.\n\nGiven a search term, search the web or vector store for that term and produce a **clear, concise, relevant summary**.\n\nYour summary must follow these rules:\n\n- **2–3 short paragraphs maximum**\n- **Max 300 words**\n- Use bullet points only if needed for clarity.\n- No unnecessary background — focus only on the main facts.\n- No filler or redundant phrases.\n- No commentary, disclaimers or explanations — only the raw summary.\n- Use only retrieved evidence chunks; do not invent missing facts.\n- Add a bracket citation after each key claim.\n- Prefer the format [document_id:chunk_index] when retrieval metadata provides document_id.\n- If document_id is unavailable, use [filename:chunk_index].\n- Do not omit bracket citations when the retrieval result gives you enough metadata to cite.\n- If evidence is missing, explicitly state that the information is unavailable.\n\n**Delivery rule:**\n\n- When done, you MUST store the entire summary using the `write_file` function.\n- DO NOT print the summary directly in your reply — only call `write_file`.\n- The `filename` must be the search term.\n- The `content` must be your summary text.\n- If you do not use `write_file`, your task is incomplete and will be rejected.\n- In your final reply, return only the name of the file \"<filename>.txt\"\n\nDo not include any other text.\n\n## FILENAME RULES\n\nWhen you use `write_file`:\n\n- Always convert the search topic to lowercase.\n- Replace spaces with underscores `_`.\n- Remove special characters (keep only letters, numbers, underscores).\n- Limit filename length to 255 characters maximum (including .txt).\n- Always add `.txt` at the end.\n\nExample:  \nSearch term: \"Multi Agent Orchestration\" → Filename: `multi_agent_orchestration.txt`\n\nWrite in the same language as the search term.\n\n## RETRIEVAL QUERY RULE\n\n- When you call `vector_search`, use the provided search term as-is for the `query` argument.\n- Call `vector_search` with `query`.\n- If the input includes target filenames and you are using `vector_search`, pass them via `filenames`.\n- You may also pass `domain_hint` only when the domain is clearly and explicitly identified in the syllabus or conversation context.\n- Do not rewrite, simplify, or replace the query with a vaguer version.\nThe absolute path to **temporary filesystem** is `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp67ltn2du`. You MUST use it to write and read temporary data.\nWhen calling write_file, always set `path` to `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp67ltn2du/<normalized_filename>.txt` and never write outside this directory.\n\n",
+   "role": "system"
+  },
+  {
+   "role": "user",
+   "content": "Terme de recherche: system developer user message roles differences OpenAI text generation API structured prompting context setting\nRaison de la recherche: This search covers the fundamental distinction between system/developer and user message roles, which is foundational for structured prompting in OpenAI and multi-turn agent flows. Expect to find explanations of how different message roles set model behavior versus per-turn inputs."
+  },
+  {
+   "role": "assistant",
+   "tool_calls": [
+    {
+     "id": "chatcmpl-tool-959aefe106f3f91f",
+     "type": "function",
+     "function": {
+      "name": "vector_search",
+      "arguments": "{\"query\": \"system developer user message roles differences OpenAI text generation API structured prompting context setting\", \"domain_hint\": \"\", \"filenames\": \"\"}"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "chatcmpl-tool-959aefe106f3f91f",
+   "content": "{'query': 'system developer user message roles differences OpenAI text generation API structured prompting context setting', 'effective_queries': ['system developer user message roles differences OpenAI text generation API structured prompting context setting'], 'observability': {'rewrite_requested': False, 'rewrite_applied': False, 'rewrite_mode': 'none', 'rewrite_input_query': 'system developer user message roles differences OpenAI text generation API structured prompting context setting', 'effective_queries_count': 1, 'rewrite_backend': 'none_or_fallback', 'rewrite_domain_hint': 'software engineering research', 'rewrite_domain_hint_source': 'heuristic', 'top_k': 12, 'score_threshold': None, 'filenames': None}, 'results': [{'document': 'low\"},\\ninstructions=\"Talk like a pirate.\",\\ninput=\"Are semicolons optional in JavaScript?\",\\n)\\nprint(response.output_text)\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\ncurl \"https://api.openai.com/v1/responses\" \\\\\\n-H \"Content-Type: application/json\" \\\\\\n-H \"Authorization: Bearer $OPENAI_API_KEY\" \\\\\\n-d \\'{\\n\"model\": \"gpt-5\",\\n\"reasoning\": {\"effort\": \"low\"},\\n\"instructions\": \"Talk like a pirate.\",\\n\"input\": \"Are semicolons optional in JavaScript?\"\\n}\\'\\nThe example above is roughly equivalent to using the following input messages in the `input` array:\\nGenerate text with messages using different roles\\njavascript', 'metadata': {'chunk_index': 12, 'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5', 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat', 'filename': 'Text_generation.md'}, 'score': 0.7732047442296697}, {'document': 'to using the following input messages in the `input` array:\\nGenerate text with messages using different roles\\njavascript\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n11\\n12\\n13\\n14\\n15\\n16\\n17\\n18\\n19\\nimport OpenAI from \"openai\";\\nconst client = new OpenAI();\\nconst response = await client.responses.create({\\nmodel: \"gpt-5\",\\nreasoning: { effort: \"low\" },\\ninput: [\\n{\\nrole: \"developer\",\\ncontent: \"Talk like a pirate.\"\\n},\\n{\\nrole: \"user\",\\ncontent: \"Are semicolons optional in JavaScript?\",\\n},\\n],\\n});\\nconsole.log(response.output_text);', 'metadata': {'chunk_index': 13, 'filename': 'Text_generation.md', 'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5', 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat'}, 'score': 0.7530599083254991}, {'document': 't_abc123\",\\n\"variables\": {\\n\"topic\": \"Dragons\",\\n\"reference_pdf\": {\\n\"type\": \"input_file\",\\n\"file_id\": \"file-abc123\"\\n}\\n}\\n}\\n}\\'\\n## Next steps\\nNow that you known the basics of text inputs and outputs, you might want to check out one of these resources next.\\n[Build a prompt in the PlaygroundUse the Playground to develop and iterate on prompts.]() [Generate JSON data with Structured OutputsEnsure JSON data emitted from a model conforms to a JSON schema.]() [Full API referenceCheck out all the options for text generation in the API reference.]()\\n---', 'metadata': {'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat', 'chunk_index': 25, 'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5', 'filename': 'Text_generation.md'}, 'score': 0.7446037893244248}, {'document': 'delimiter = \"####\"\\nsystem_message = f\"\"\"\\nYou will be provided with customer service queries. \\\\\\nThe customer service query will be delimited with \\\\\\n{delimiter} characters.\\nClassify each query into a primary category \\\\\\nand a secondary category.\\nProvide your output in json format with the \\\\\\nkeys: primary and secondary.\\nPrimary categories: Billing, Technical Support, \\\\\\nAccount Management, or General Inquiry.\\nBilling secondary categories:\\nUnsubscribe or upgrade\\nAdd a payment method\\nExplanation for charge\\nDispute a charge\\nTechnical Support secondary categories:\\nGeneral troubleshooting\\nDevice compatibility\\nSoftware updates\\nAccount Management secondary categories:\\nPassword reset\\nUpdate personal information\\nClose account\\nAccount security\\nGeneral Inquiry secondary categories:\\nProduct information\\nPri', 'metadata': {'source': 'https://medium.com/@farheenshaukat_19/building-systems-with-the-chatgpt-api-6b0bc6755799', 'document_id': 'c00805d3-c075-456d-b595-b6cd8a61ff58', 'filename': 'Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md', 'chunk_index': 9}, 'score': 0.7443967433357099}, {'document': 'Update personal information\\nClose account\\nAccount security\\nGeneral Inquiry secondary categories:\\nProduct information\\nPricing\\nFeedback\\nSpeak to a human\\n\"\"\"\\nuser_message = f\"\"\"\\\\\\nI want you to delete my profile and all of my user data\"\"\"\\nmessages = [\\n{\\'role\\':\\'system\\',\\n\\'content\\': system_message},\\n{\\'role\\':\\'user\\',\\n\\'content\\': f\"{delimiter}{user_message}{delimiter}\"},\\n]\\nresponse = get_completion_from_messages(messages)\\nprint(response)\\nuser_message = f\"\"\"\\\\\\nTell me more about your flat screen tvs\"\"\"\\nmessages = [\\n{\\'role\\':\\'system\\',\\n\\'content\\': system_message},\\n{\\'role\\':\\'user\\',\\n\\'content\\': f\"{delimiter}{user_message}{delimiter}\"},\\n]\\nresponse = get_completion_from_messages(messages)\\nprint(response)', 'metadata': {'source': 'https://medium.com/@farheenshaukat_19/building-systems-with-the-chatgpt-api-6b0bc6755799', 'filename': 'Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md', 'document_id': 'c00805d3-c075-456d-b595-b6cd8a61ff58', 'chunk_index': 10}, 'score': 0.7341936100119927}, {'document': 'def get_completion_from_messages(messages,\\nmodel=\"gpt-3.5-turbo\",\\ntemperature=0,\\nmax_tokens=500):\\nresponse = openai.ChatCompletion.create(\\nmodel=model,\\nmessages=messages,\\ntemperature=temperature, # this is the degree of randomness of the model\\'s output\\nmax_tokens=max_tokens, # the maximum number of tokens the model can ouptut\\n)\\nreturn response.choices[0].message[\"content\"]\\nmessages = [\\n{\\'role\\':\\'system\\',\\n\\'content\\':\"\"\"You are an assistant who\\\\\\nresponds in the style of Dr Seuss.\"\"\"},\\n{\\'role\\':\\'user\\',\\n\\'content\\':\"\"\"write me a very short poem\\\\\\nabout a happy carrot\"\"\"},\\n]\\nresponse = get_completion_from_messages(messages, temperature=1)\\nprint(response)\\n# length\\nmessages = [\\n{\\'role\\':\\'system\\',\\n\\'content\\':\\'All your responses must be \\\\\\none sentence long.\\'},\\n{\\'role\\':\\'user\\',\\n\\'content\\':\\'write me a story ab', 'metadata': {'filename': 'Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md', 'source': 'https://medium.com/@farheenshaukat_19/building-systems-with-the-chatgpt-api-6b0bc6755799', 'chunk_index': 4, 'document_id': 'c00805d3-c075-456d-b595-b6cd8a61ff58'}, 'score': 0.733068526989329}, {'document': 't(moderation_output)\\nsystem_message = f\"\"\"\\nYou are an assistant that evaluates whether \\\\\\ncustomer service agent responses sufficiently \\\\\\nanswer customer questions, and also validates that \\\\\\nall the facts the assistant cites from the product \\\\\\ninformation are correct.\\nThe product information and user and customer \\\\\\nservice agent messages will be delimited by \\\\\\n3 backticks, i.e. ```.\\nRespond with a Y or N character, with no punctuation:\\nY - if the output sufficiently answers the question \\\\\\nAND the response correctly uses product information\\nN - otherwise\\nOutput a single letter only.\\n\"\"\"\\ncustomer_message = f\"\"\"\\ntell me about the smartx pro phone and \\\\\\nthe fotosnap camera, the dslr one. \\\\\\nAlso tell me about your tvs\"\"\"\\nproduct_information = \"\"\"{ \"name\": \"SmartX ProPhone\", \"category\": \"Smartpho', 'metadata': {'document_id': 'c00805d3-c075-456d-b595-b6cd8a61ff58', 'chunk_index': 53, 'source': 'https://medium.com/@farheenshaukat_19/building-systems-with-the-chatgpt-api-6b0bc6755799', 'filename': 'Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md'}, 'score': 0.7295043420682044}, {'document': '>\\n* Generate answer to user query based on detailed product information:\\nsystem_message = f\"\"\"\\nYou are a customer service assistant for a \\\\\\nlarge electronic store. \\\\\\nRespond in a friendly and helpful tone, \\\\\\nwith very concise answers. \\\\\\nMake sure to ask the user relevant follow up questions.\\n\"\"\"\\nuser_message_1 = f\"\"\"\\ntell me about the smartx pro phone and \\\\\\nthe fotosnap camera, the dslr one. \\\\\\nAlso tell me about your tvs\"\"\"\\nmessages = [\\n{\\'role\\':\\'system\\',\\n\\'content\\': system_message},\\n{\\'role\\':\\'user\\',\\n\\'content\\': user_message_1},\\n{\\'role\\':\\'assistant\\',\\n\\'content\\': f\"\"\"Relevant product information:\\\\n\\\\\\n{product_information_for_user_message_1}\"\"\"},\\n]\\nfinal_response = get_completion_from_messages(messages)\\nprint(final_response)', 'metadata': {'filename': 'Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md', 'chunk_index': 50, 'document_id': 'c00805d3-c075-456d-b595-b6cd8a61ff58', 'source': 'https://medium.com/@farheenshaukat_19/building-systems-with-the-chatgpt-api-6b0bc6755799'}, 'score': 0.7207612911400634}, {'document': 'Doe\",\\n\"product\": \"40oz juice box\"\\n}\\n}\\n}\\'\\nVariables with file input\\nPrompt template with file input variable\\njavascript\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n11\\n12\\n13\\n14\\n15\\n16\\n17\\n18\\n19\\n20\\n21\\n22\\n23\\n24\\n25\\nimport fs from \"fs\";\\nimport OpenAI from \"openai\";\\nconst client = new OpenAI();\\n// Upload a PDF we will reference in the prompt variables\\nconst file = await client.files.create({\\nfile: fs.createReadStream(\"draconomicon.pdf\"),\\npurpose: \"user_data\",\\n});\\nconst response = await client.responses.create({\\nmodel: \"gpt-5\",\\nprompt: {\\nid: \"pmpt_abc123\",\\nvariables: {\\ntopic: \"Dragons\",\\nreference_pdf: {\\ntype: \"input_file\",\\nfile_id: file.id,\\n},\\n},\\n},\\n});\\nconsole.log(response.output_text);', 'metadata': {'chunk_index': 22, 'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat', 'filename': 'Text_generation.md', 'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5'}, 'score': 0.7152380844482178}, {'document': 'ke a pirate.\"\\n},\\n{\\n\"role\": \"user\",\\n\"content\": \"Are semicolons optional in JavaScript?\"\\n}\\n]\\n)\\nprint(response.output_text)\\n1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n11\\n12\\n13\\n14\\n15\\n16\\n17\\ncurl \"https://api.openai.com/v1/responses\" \\\\\\n-H \"Content-Type: application/json\" \\\\\\n-H \"Authorization: Bearer $OPENAI_API_KEY\" \\\\\\n-d \\'{\\n\"model\": \"gpt-5\",\\n\"reasoning\": {\"effort\": \"low\"},\\n\"input\": [\\n{\\n\"role\": \"developer\",\\n\"content\": \"Talk like a pirate.\"\\n},\\n{\\n\"role\": \"user\",\\n\"content\": \"Are semicolons optional in JavaScript?\"\\n}\\n]\\n}\\'', 'metadata': {'source': 'https://platform.openai.com/docs/guides/text?api-mode=chat', 'document_id': 'afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5', 'chunk_index': 15, 'filename': 'Text_generation.md'}, 'score': 0.708742125750953}, {'document': 'ariety of questions that cover different aspects of the topic. Make sure they are complete questions, and that they are related to the original question. Output one question per line. Do not number the questions.”\\n2.\\n* Retrieve Results\\n* : Use the original query and the additional queries to retrieve results from the vector database.\\n3.\\n* Aggregate and Process\\n* : Send all retrieved responses to the LLM for further processing.', 'metadata': {'document_id': 'd28458c1-fe61-4da1-b159-82ec7cd24739', 'chunk_index': 18, 'filename': 'Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md', 'source': 'https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774'}, 'score': 0.7019977698232851}, {'document': 'alues.\\nFor example, given the user query “How many kilograms are 40 pounds?”, the agent might decide that it needs the tool `lbs_to_kg_tool` with one parameter value of 40. The agent’s response might look like this.', 'metadata': {'chunk_index': 46, 'source': 'https://huyenchip.com/2025/01/07/agents.html', 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'filename': 'Agents_1.md'}, 'score': 0.6996402939356788}]}"
+  },
+  {
+   "role": "assistant",
+   "tool_calls": [
+    {
+     "id": "chatcmpl-tool-96b3063a6e39fafd",
+     "type": "function",
+     "function": {
+      "name": "write_file",
+      "arguments": "{\"path\": \"/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp67ltn2du/system_developer_user_message_roles_differences_openai_text_generation_api_structured_prompting_context_setting.txt\", \"content\": \"OpenAI's text generation API distinguishes between developer/system and user message roles to separate persistent behavior-setting context from per-turn inputs. In the Responses API, a `developer` message is used to set model-level instructions (e.g., \\\"Talk like a pirate.\\\") while a `user` message carries the actual per-turn query (e.g., \\\"Are semicolons optional in JavaScript?\\\") [afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5:13][afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5:15]. This pattern is roughly equivalent to passing the same instructions through the `input` array in the Responses endpoint [afe96a51-da9c-4f7f-9a4a-b67e4b1cc9b5:12].\\n\\nIn the Chat Completions style, a `system` message plays the same role as `developer`: it defines persistent behavior and constraints that apply across the whole conversation, while `user` messages provide the specific input per turn [c00805d3-c075-456d-b595-b6cd8a61ff58:4][c00805d3-c075-456d-b595-b6cd8a61ff58:9]. Structured prompting commonly relies on this split: the `system` message carries the classification task, category definitions, output format requirements (e.g., JSON keys), and delimiters, while the `user` message contains only the specific customer query to be processed [c00805d3-c075-456d-b595-b6cd8a61ff58:9][c00805d3-c075-456d-b595-b6cd8a61ff58:10].\\n\\nThe `assistant` role is also used within message arrays to inject prior assistant turns (e.g., relevant product information) into the context for multi-turn flows [c00805d3-c075-456d-b595-b6cd8a61ff58:50]. This separation of roles — developer/system for global behavior, user for per-turn input, and assistant for conversation history — is foundational for structured prompting and multi-turn agent orchestration in OpenAI's API.\"}"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "chatcmpl-tool-96b3063a6e39fafd",
+   "content": "{\"type\":\"text\",\"text\":\"Successfully wrote to /private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp67ltn2du/system_developer_user_message_roles_differences_openai_text_generation_api_structured_prompting_context_setting.txt\",\"annotations\":null,\"meta\":null}"
+  }
+ ],
+ "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+ "reasoning_effort": "none",
+ "temperature": 1.0,
+ "tools": [
+  {
+   "type": "function",
+   "function": {
+    "name": "write_file",
+    "description": "Create a new file or completely overwrite an existing file with new content. Use with caution as it will overwrite existing files without warning. Handles text content with proper encoding. Only works within allowed directories.",
+    "parameters": {
+     "$schema": "http://json-schema.org/draft-07/schema#",
+     "type": "object",
+     "properties": {
+      "path": {
+       "type": "string"
+      },
+      "content": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "path",
+      "content"
+     ]
+    },
+    "strict": false
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "vector_search",
+    "description": "Recherche sémantique dans la base vectorielle de la session.",
+    "parameters": {
+     "properties": {
+      "query": {
+       "description": "La requête de recherche sémantique.",
+       "title": "Query",
+       "type": "string"
+      },
+      "domain_hint": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — indice de domaine pour contextualiser la recherche.",
+       "title": "Domain Hint"
+      },
+      "filenames": {
+       "anyOf": [
+        {
+         "items": {
+          "type": "string"
+         },
+         "type": "array"
+        },
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — restreint la recherche à ces fichiers. Utiliser les\nnoms exacts tels que stockés dans la base de connaissances (champ\n'filename' des entrées), pas les titres de documents. En cas de doute,\nomettre ce paramètre (la recherche porte alors sur tout le corpus).",
+       "title": "Filenames"
+      }
+     },
+     "required": [
+      "query",
+      "domain_hint",
+      "filenames"
+     ],
+     "title": "vector_search_args",
+     "type": "object",
+     "additionalProperties": false
+    },
+    "strict": true
+   }
+  }
+ ],
+ "top_p": 0.95
+}

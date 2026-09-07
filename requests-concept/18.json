@@ -1,0 +1,116 @@
+{
+ "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+ "reasoning_effort": "none",
+ "temperature": 1.0,
+ "top_p": 0.95,
+ "messages": [
+  {
+   "content": "# System context\nYou are part of a multi-agent system called the Agents SDK, designed to make agent coordination and execution easy. Agents uses two primary abstraction: **Agents** and **Handoffs**. An agent encompasses instructions and tools and can hand off a conversation to another agent when appropriate. Handoffs are achieved by calling a handoff function, generally named `transfer_to_<agent_name>`. Transfers between agents are handled seamlessly in the background; do not mention or draw attention to these transfers in your conversation with the user.\n\n\nYou are a research assistant.\n\nGiven a search term, search the web or vector store for that term and produce a **clear, concise, relevant summary**.\n\nYour summary must follow these rules:\n\n- **2–3 short paragraphs maximum**\n- **Max 300 words**\n- Use bullet points only if needed for clarity.\n- No unnecessary background — focus only on the main facts.\n- No filler or redundant phrases.\n- No commentary, disclaimers or explanations — only the raw summary.\n- Use only retrieved evidence chunks; do not invent missing facts.\n- Add a bracket citation after each key claim.\n- Prefer the format [document_id:chunk_index] when retrieval metadata provides document_id.\n- If document_id is unavailable, use [filename:chunk_index].\n- Do not omit bracket citations when the retrieval result gives you enough metadata to cite.\n- If evidence is missing, explicitly state that the information is unavailable.\n\n**Delivery rule:**\n\n- When done, you MUST store the entire summary using the `write_file` function.\n- DO NOT print the summary directly in your reply — only call `write_file`.\n- The `filename` must be the search term.\n- The `content` must be your summary text.\n- If you do not use `write_file`, your task is incomplete and will be rejected.\n- In your final reply, return only the name of the file \"<filename>.txt\"\n\nDo not include any other text.\n\n## FILENAME RULES\n\nWhen you use `write_file`:\n\n- Always convert the search topic to lowercase.\n- Replace spaces with underscores `_`.\n- Remove special characters (keep only letters, numbers, underscores).\n- Limit filename length to 255 characters maximum (including .txt).\n- Always add `.txt` at the end.\n\nExample:  \nSearch term: \"Multi Agent Orchestration\" → Filename: `multi_agent_orchestration.txt`\n\nWrite in the same language as the search term.\n\n## RETRIEVAL QUERY RULE\n\n- When you call `vector_search`, use the provided search term as-is for the `query` argument.\n- Call `vector_search` with `query`.\n- If the input includes target filenames and you are using `vector_search`, pass them via `filenames`.\n- You may also pass `domain_hint` only when the domain is clearly and explicitly identified in the syllabus or conversation context.\n- Do not rewrite, simplify, or replace the query with a vaguer version.\nThe absolute path to **temporary filesystem** is `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp7l1sncbn`. You MUST use it to write and read temporary data.\nWhen calling write_file, always set `path` to `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmp7l1sncbn/<normalized_filename>.txt` and never write outside this directory.\n\n",
+   "role": "system"
+  },
+  {
+   "content": "Terme de recherche: agent memory state context history persistence function calling tool use API actions error handling retries recovery fallback failure\nRaison de la recherche: This query addresses agent memory, function calling/tool use, and error handling with retries—key operational aspects of agent systems from S-A, S-B, and S-E. It aims to extract details on state persistence, API integration, and failure recovery.\nFichiers cibles: Agents_1.md, How_we_built_our_multi_1.md, Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md",
+   "role": "user"
+  },
+  {
+   "content": "I'll search the vector store for the specified term across the target files.\n\n",
+   "role": "assistant",
+   "tool_calls": [
+    {
+     "function": {
+      "arguments": "{\"query\": \"agent memory state context history persistence function calling tool use API actions error handling retries recovery fallback failure\", \"domain_hint\": \"agent systems\", \"filenames\": [\"Agents_1.md\", \"How_we_built_our_multi_1.md\", \"Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md\"]}",
+      "name": "vector_search"
+     },
+     "id": "chatcmpl-tool-a7d30f8e797e2466",
+     "type": "function"
+    }
+   ]
+  },
+  {
+   "content": "{'query': 'agent memory state context history persistence function calling tool use API actions error handling retries recovery fallback failure', 'effective_queries': ['agent memory state context history persistence function calling tool use API actions error handling retries recovery fallback failure'], 'observability': {'rewrite_requested': False, 'rewrite_applied': False, 'rewrite_mode': 'none', 'rewrite_input_query': 'agent memory state context history persistence function calling tool use API actions error handling retries recovery fallback failure', 'effective_queries_count': 1, 'rewrite_backend': 'none_or_fallback', 'rewrite_domain_hint': 'agent systems', 'rewrite_domain_hint_source': 'agent_override', 'top_k': 12, 'score_threshold': None, 'filenames': ['Agents_1.md', 'How_we_built_our_multi_1.md', 'Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md']}, 'results': [{'document': '>\\n* Inner Monologue:\\n* Since we asked the LLM to separate its reasoning steps by a delimiter, we can hide the chain-of-thought reasoning from the final output that the user sees.\\ntry:\\nfinal_response = response.split(delimiter)[-1].strip()\\nexcept Exception as e:\\nfinal_response = \"Sorry, I\\'m having trouble right now, please try asking another question.\"\\nprint(final_response)', 'metadata': {'source': 'https://medium.com/@farheenshaukat_19/building-systems-with-the-chatgpt-api-6b0bc6755799', 'chunk_index': 24, 'filename': 'Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md', 'document_id': 'c00805d3-c075-456d-b595-b6cd8a61ff58'}, 'score': 0.7015013630381934}, {'document': 'delimiter = \"####\"\\nsystem_message = f\"\"\"\\nYou will be provided with customer service queries. \\\\\\nThe customer service query will be delimited with \\\\\\n{delimiter} characters.\\nClassify each query into a primary category \\\\\\nand a secondary category.\\nProvide your output in json format with the \\\\\\nkeys: primary and secondary.\\nPrimary categories: Billing, Technical Support, \\\\\\nAccount Management, or General Inquiry.\\nBilling secondary categories:\\nUnsubscribe or upgrade\\nAdd a payment method\\nExplanation for charge\\nDispute a charge\\nTechnical Support secondary categories:\\nGeneral troubleshooting\\nDevice compatibility\\nSoftware updates\\nAccount Management secondary categories:\\nPassword reset\\nUpdate personal information\\nClose account\\nAccount security\\nGeneral Inquiry secondary categories:\\nProduct information\\nPri', 'metadata': {'chunk_index': 9, 'source': 'https://medium.com/@farheenshaukat_19/building-systems-with-the-chatgpt-api-6b0bc6755799', 'document_id': 'c00805d3-c075-456d-b595-b6cd8a61ff58', 'filename': 'Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md'}, 'score': 0.7010489192076033}, {'document': 'def get_completion_from_messages(messages,\\nmodel=\"gpt-3.5-turbo\",\\ntemperature=0,\\nmax_tokens=500):\\nresponse = openai.ChatCompletion.create(\\nmodel=model,\\nmessages=messages,\\ntemperature=temperature, # this is the degree of randomness of the model\\'s output\\nmax_tokens=max_tokens, # the maximum number of tokens the model can ouptut\\n)\\nreturn response.choices[0].message[\"content\"]\\nmessages = [\\n{\\'role\\':\\'system\\',\\n\\'content\\':\"\"\"You are an assistant who\\\\\\nresponds in the style of Dr Seuss.\"\"\"},\\n{\\'role\\':\\'user\\',\\n\\'content\\':\"\"\"write me a very short poem\\\\\\nabout a happy carrot\"\"\"},\\n]\\nresponse = get_completion_from_messages(messages, temperature=1)\\nprint(response)\\n# length\\nmessages = [\\n{\\'role\\':\\'system\\',\\n\\'content\\':\\'All your responses must be \\\\\\none sentence long.\\'},\\n{\\'role\\':\\'user\\',\\n\\'content\\':\\'write me a story ab', 'metadata': {'source': 'https://medium.com/@farheenshaukat_19/building-systems-with-the-chatgpt-api-6b0bc6755799', 'filename': 'Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md', 'document_id': 'c00805d3-c075-456d-b595-b6cd8a61ff58', 'chunk_index': 4}, 'score': 0.7007441587631192}, {'document': 'alues.\\nFor example, given the user query “How many kilograms are 40 pounds?”, the agent might decide that it needs the tool `lbs_to_kg_tool` with one parameter value of 40. The agent’s response might look like this.', 'metadata': {'source': 'https://huyenchip.com/2025/01/07/agents.html', 'chunk_index': 46, 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'filename': 'Agents_1.md'}, 'score': 0.6999147153919295}, {'document': 'are an assistant that evaluates how well the customer service agent \\\\\\nanswers a user question by comparing the response to the ideal (expert) response\\nOutput a single letter and nothing else.\\n\"\"\"\\nuser_message = f\"\"\"\\\\\\nYou are comparing a submitted answer to an expert answer on a given question. Here is the data:\\n[BEGIN DATA]\\n************\\n[Question]: {cust_msg}\\n************\\n[Expert]: {ideal}\\n************\\n[Submission]: {completion}\\n************\\n[END DATA]\\nCompare the factual content of the submitted answer with the expert answer. Ignore any differences in style, grammar, or punctuation.\\nThe submitted answer may either be a subset or superset of the expert answer, or it may conflict with it. Determine which case applies. Answer the question by selecting one of the following options:\\n(A) The s', 'metadata': {'filename': 'Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md', 'chunk_index': 91, 'document_id': 'c00805d3-c075-456d-b595-b6cd8a61ff58', 'source': 'https://medium.com/@farheenshaukat_19/building-systems-with-the-chatgpt-api-6b0bc6755799'}, 'score': 0.6955921231426212}, {'document': 'ponse = get_completion_from_messages(messages)\\nreturn response\\neval_vs_ideal(test_set_ideal, assistant_answer)\\nassistant_answer_2 = \"life is like a box of chocolates\"\\neval_vs_ideal(test_set_ideal, assistant_answer_2)', 'metadata': {'source': 'https://medium.com/@farheenshaukat_19/building-systems-with-the-chatgpt-api-6b0bc6755799', 'document_id': 'c00805d3-c075-456d-b595-b6cd8a61ff58', 'filename': 'Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md', 'chunk_index': 93}, 'score': 0.692426137657529}, {'document': 'context management strategies. As conversations extend, standard context windows become insufficient, necessitating intelligent compression and memory mechanisms. We implemented patterns where agents summarize completed work phases and store essential information in external memory before proceeding to new tasks. When context limits approach, agents can spawn fresh subagents with clean contexts while maintaining continuity through careful handoffs. Further, they can retrieve stored context like the research plan from their memory rather than losing previous work when reaching the context limit. This distributed approach prevents context overflow while preserving conversation coherence across extended interactions.\\n**Subagent output to a filesystem to minimize the ‘game of telephone.’** Dir', 'metadata': {'chunk_index': 36, 'document_id': '99217d87-5080-4d11-bb47-f8801a637abc', 'source': 'https://www.anthropic.com/engineering/built-multi-agent-research-system', 'filename': 'How_we_built_our_multi_1.md'}, 'score': 0.6758901657663212}, {'document': 'rain that leverages its tools and feedback from the environment to plan how best to accomplish a task. Access to tools makes a model vastly more capable, so the agentic pattern is inevitable.\\nWhile the concept of “agents” sounds novel, they are built upon many concepts that have been used since the early days of LLMs, including self-critique, chain-of-thought, and structured outputs.\\nThis post covered conceptually how agents work and different components of an agent. In a future post, I’ll discuss how to evaluate agent frameworks.\\nThe agentic pattern often deals with information that exceeds a model’s context limit. A memory system that supplements the model’s context in handling information can significantly enhance an agent’s capabilities. Since this post is already long, I’ll explore ho', 'metadata': {'chunk_index': 74, 'source': 'https://huyenchip.com/2025/01/07/agents.html', 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'filename': 'Agents_1.md'}, 'score': 0.6670355195213481}, {'document': 'ntext, since if the context window exceeds 200,000 tokens it will be truncated and it is important to retain the plan. It then creates specialized Subagents (two are shown here, but it can be any number) with specific research tasks. Each Subagent independently performs web searches, evaluates tool results using interleaved thinking, and returns findings to the LeadResearcher. The LeadResearcher synthesizes these results and decides whether more research is needed—if so, it can create additional subagents or refine its strategy. Once sufficient information is gathered, the system exits the research loop and passes all findings to a CitationAgent, which processes the documents and research report to identify specific locations for citations. This ensures all claims are properly attributed t', 'metadata': {'filename': 'How_we_built_our_multi_1.md', 'document_id': '99217d87-5080-4d11-bb47-f8801a637abc', 'source': 'https://www.anthropic.com/engineering/built-multi-agent-research-system', 'chunk_index': 10}, 'score': 0.6534396967621606}, {'document': 'the agent’s environment, there are many possible tools. Here are three categories of tools that you might want to consider: knowledge augmentation (i.e., context construction), capability extension, and tools that let your agent act upon its environment.\\n### Knowledge augmentation\\nI hope that this book, so far, has convinced you of the importance of having the relevant context for a model’s response quality. An important category of tools includes those that help augment the knowledge of your agent. Some of them have already been discussed: text retriever, image retriever, and SQL executor. Other potential tools include internal people search, an inventory API that returns the status of different products, Slack retrieval, an email reader, etc.\\nMany such tools augment a model with your or', 'metadata': {'source': 'https://huyenchip.com/2025/01/07/agents.html', 'chunk_index': 12, 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4', 'filename': 'Agents_1.md'}, 'score': 0.6513755644950916}, {'document': 'From this response, you can evoke the function `lbs_to_kg(lbs=40)` and use its output to generate a response to the users.\\n>\\n* Tip\\n* : When working with agents, always ask the system to report what parameter values it uses for each function call. Inspect these values to make sure they are correct.\\n#### Planning granularity\\nA plan is a roadmap outlining the steps needed to accomplish a task. A roadmap can be of different levels of granularity. To plan for a year, a quarter-by-quarter plan is higher-level than a month-by-month plan, which is, in turn, higher-level than a week-to-week plan.\\nThere’s a planning/execution tradeoff. A detailed plan is harder to generate, but easier to execute. A higher-level plan is easier to generate, but harder to execute. An approach to circumvent this tradeof', 'metadata': {'chunk_index': 48, 'source': 'https://huyenchip.com/2025/01/07/agents.html', 'filename': 'Agents_1.md', 'document_id': '967e61d4-de9b-4554-a51c-b286bf9fa8f4'}, 'score': 0.649346179824996}, {'document': 'ion coherence across extended interactions.\\n**Subagent output to a filesystem to minimize the ‘game of telephone.’** Direct subagent outputs can bypass the main coordinator for certain types of results, improving both fidelity and performance. Rather than requiring subagents to communicate everything through the lead agent, implement artifact systems where specialized agents can create outputs that persist independently. Subagents call tools to store their work in external systems, then pass lightweight references back to the coordinator. This prevents information loss during multi-stage processing and reduces token overhead from copying large outputs through conversation history. The pattern works particularly well for structured outputs like code, reports, or data visualizations where th', 'metadata': {'document_id': '99217d87-5080-4d11-bb47-f8801a637abc', 'filename': 'How_we_built_our_multi_1.md', 'chunk_index': 37, 'source': 'https://www.anthropic.com/engineering/built-multi-agent-research-system'}, 'score': 0.6479220653422924}]}",
+   "role": "tool",
+   "tool_call_id": "chatcmpl-tool-a7d30f8e797e2466"
+  }
+ ],
+ "tools": [
+  {
+   "type": "function",
+   "function": {
+    "name": "write_file",
+    "description": "Create a new file or completely overwrite an existing file with new content. Use with caution as it will overwrite existing files without warning. Handles text content with proper encoding. Only works within allowed directories.",
+    "parameters": {
+     "$schema": "http://json-schema.org/draft-07/schema#",
+     "type": "object",
+     "properties": {
+      "path": {
+       "type": "string"
+      },
+      "content": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "path",
+      "content"
+     ]
+    },
+    "strict": false
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "vector_search",
+    "description": "Recherche sémantique dans la base vectorielle de la session.",
+    "parameters": {
+     "properties": {
+      "query": {
+       "description": "La requête de recherche sémantique.",
+       "title": "Query",
+       "type": "string"
+      },
+      "domain_hint": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — indice de domaine pour contextualiser la recherche.",
+       "title": "Domain Hint"
+      },
+      "filenames": {
+       "anyOf": [
+        {
+         "items": {
+          "type": "string"
+         },
+         "type": "array"
+        },
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — restreint la recherche à ces fichiers. Utiliser les\nnoms exacts tels que stockés dans la base de connaissances (champ\n'filename' des entrées), pas les titres de documents. En cas de doute,\nomettre ce paramètre (la recherche porte alors sur tout le corpus).",
+       "title": "Filenames"
+      }
+     },
+     "required": [
+      "query",
+      "domain_hint",
+      "filenames"
+     ],
+     "title": "vector_search_args",
+     "type": "object",
+     "additionalProperties": false
+    },
+    "strict": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+server OK: http://spark1:8000/v1 serves deepseek-ai/DeepSeek-V4-Flash-0731
+  short probe 'reply pong':  0.6s ok  'pong'
+  short probe 'filename only':  0.8s ok  'probe.txt'
+replaying the full recorded run (47 requests) 12 times, nonce=2, order=deps
+
+  loop 01/12  wall=   680s  generated=15432  slowest=#46 324s  errors=1  server=DOWN
+      #46 after 324s: HTTP 500: b'{"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":500}}'
+
+REPRODUCED: the server stopped answering during loop 1 (engine dead)
+exit=1 13:18:52

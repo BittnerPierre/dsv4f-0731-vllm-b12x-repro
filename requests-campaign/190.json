@@ -1,0 +1,133 @@
+{
+ "messages": [
+  {
+   "content": "# System context\nYou are part of a multi-agent system called the Agents SDK, designed to make agent coordination and execution easy. Agents uses two primary abstraction: **Agents** and **Handoffs**. An agent encompasses instructions and tools and can hand off a conversation to another agent when appropriate. Handoffs are achieved by calling a handoff function, generally named `transfer_to_<agent_name>`. Transfers between agents are handled seamlessly in the background; do not mention or draw attention to these transfers in your conversation with the user.\n\n\nYou are a research assistant.\n\nGiven a search term, search the web or vector store for that term and produce a **clear, concise, relevant summary**.\n\nYour summary must follow these rules:\n\n- **2–3 short paragraphs maximum**\n- **Max 300 words**\n- Use bullet points only if needed for clarity.\n- No unnecessary background — focus only on the main facts.\n- No filler or redundant phrases.\n- No commentary, disclaimers or explanations — only the raw summary.\n- Use only retrieved evidence chunks; do not invent missing facts.\n- Add a bracket citation after each key claim.\n- Prefer the format [document_id:chunk_index] when retrieval metadata provides document_id.\n- If document_id is unavailable, use [filename:chunk_index].\n- Do not omit bracket citations when the retrieval result gives you enough metadata to cite.\n- If evidence is missing, explicitly state that the information is unavailable.\n\n**Delivery rule:**\n\n- When done, you MUST store the entire summary using the `write_file` function.\n- DO NOT print the summary directly in your reply — only call `write_file`.\n- The `filename` must be the search term.\n- The `content` must be your summary text.\n- If you do not use `write_file`, your task is incomplete and will be rejected.\n- In your final reply, return only the name of the file \"<filename>.txt\"\n\nDo not include any other text.\n\n## FILENAME RULES\n\nWhen you use `write_file`:\n\n- Always convert the search topic to lowercase.\n- Replace spaces with underscores `_`.\n- Remove special characters (keep only letters, numbers, underscores).\n- Limit filename length to 255 characters maximum (including .txt).\n- Always add `.txt` at the end.\n\nExample:  \nSearch term: \"Multi Agent Orchestration\" → Filename: `multi_agent_orchestration.txt`\n\nWrite in the same language as the search term.\n\n## RETRIEVAL QUERY RULE\n\n- When you call `vector_search`, use the provided search term as-is for the `query` argument.\n- Call `vector_search` with `query`.\n- If the input includes target filenames and you are using `vector_search`, pass them via `filenames`.\n- You may also pass `domain_hint` only when the domain is clearly and explicitly identified in the syllabus or conversation context.\n- Do not rewrite, simplify, or replace the query with a vaguer version.\nThe absolute path to **temporary filesystem** is `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmpk_hlsz2u`. You MUST use it to write and read temporary data.\nWhen calling write_file, always set `path` to `/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmpk_hlsz2u/<normalized_filename>.txt` and never write outside this directory.\n\n",
+   "role": "system"
+  },
+  {
+   "role": "user",
+   "content": "Terme de recherche: Frozen FY2025 initial capex guidance release date basis Amazon ~100B Alphabet ~75B Meta 60-65B finance lease principal; Microsoft NVIDIA Apple guidance unavailable forward-looking\nRaison de la recherche: Retrieve the frozen initial FY2025 capex guidance, its release date, and basis for Amazon, Alphabet, and Meta, and confirm that guidance is unavailable for Microsoft, NVIDIA, and Apple.\nFichiers cibles: capex_guidance_2025.md, capex_reference_data.md"
+  },
+  {
+   "role": "assistant",
+   "tool_calls": [
+    {
+     "id": "chatcmpl-tool-bef34140cdf47b5b",
+     "type": "function",
+     "function": {
+      "name": "vector_search",
+      "arguments": "{\"query\": \"Frozen FY2025 initial capex guidance release date basis Amazon ~100B Alphabet ~75B Meta 60-65B finance lease principal; Microsoft NVIDIA Apple guidance unavailable forward-looking\", \"domain_hint\": \"capital expenditure guidance\", \"filenames\": [\"capex_guidance_2025.md\", \"capex_reference_data.md\"]}"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "chatcmpl-tool-bef34140cdf47b5b",
+   "content": "{'query': 'Frozen FY2025 initial capex guidance release date basis Amazon ~100B Alphabet ~75B Meta 60-65B finance lease principal; Microsoft NVIDIA Apple guidance unavailable forward-looking', 'effective_queries': ['Frozen FY2025 initial capex guidance release date basis Amazon ~100B Alphabet ~75B Meta 60-65B finance lease principal; Microsoft NVIDIA Apple guidance unavailable forward-looking'], 'observability': {'rewrite_requested': False, 'rewrite_applied': False, 'rewrite_mode': 'none', 'rewrite_input_query': 'Frozen FY2025 initial capex guidance release date basis Amazon ~100B Alphabet ~75B Meta 60-65B finance lease principal; Microsoft NVIDIA Apple guidance unavailable forward-looking', 'effective_queries_count': 1, 'rewrite_backend': 'none_or_fallback', 'rewrite_domain_hint': 'capital expenditure guidance', 'rewrite_domain_hint_source': 'agent_override', 'top_k': 12, 'score_threshold': None, 'filenames': ['capex_guidance_2025.md', 'capex_reference_data.md']}, 'results': [{'document': 'er revisions\\nmust not be substituted. Guidance is forward-looking and must remain separate from\\nreported FY2025 actuals.\\n| Company | Release date | Initial FY2025 guidance | Basis |\\n| --- | --- | --- | --- |\\n| Amazon | 2025-02-06 | approximately $100B | management estimate of capital expenditures |\\n| Alphabet | 2025-02-04 | approximately $75B | reported capex; cash-payment timing can cause variability |\\n| Meta | 2025-01-29 | $60B-$65B | includes principal payments on finance leases |', 'metadata': {'source': 'https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/e957e35b04eacff5b403eb57725a6a34c1601949/capex_guidance_2025.md', 'chunk_index': 1, 'filename': 'Initial_FY2025_Capex_Guidance_-_Frozen_as_of_Febru.md', 'document_id': 'doc_Initial_FY2025_Capex_Guidance_-_Frozen_as_of_Febru.md'}, 'score': 0.8178567238516177}, {'document': \"payment timing can cause variability |\\n| Meta | 2025-01-29 | $60B-$65B | includes principal payments on finance leases |\\nThe corpus actual for Meta is cash paid to acquire property and equipment. It excludes\\nfinance-lease principal, so a percentage variance against Meta's guidance is not\\nlike-for-like and must not be calculated. The FY2025 Meta company-reported capex measure\\nincluding finance-lease principal was $72.215B ($69.691B cash PP&E plus $2.524B of\\nfinance-lease principal).\\nNo initial FY2025 capex guidance is provided in this frozen source pack for Microsoft,\\nNVIDIA, or Apple. Report it as unavailable rather than estimating it.\\nPrimary releases used to validate this frozen source:\", 'metadata': {'source': 'https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/e957e35b04eacff5b403eb57725a6a34c1601949/capex_guidance_2025.md', 'document_id': 'doc_Initial_FY2025_Capex_Guidance_-_Frozen_as_of_Febru.md', 'chunk_index': 2, 'filename': 'Initial_FY2025_Capex_Guidance_-_Frozen_as_of_Febru.md'}, 'score': 0.7981134768276452}, {'document': 'ns\\nMeta,Dec,Capex,FY2024,37.3,USD_billions\\nMeta,Dec,FCF,FY2024,54.1,USD_billions\\nMeta,Dec,Capex/OCF,FY2024,41,percent\\nMeta,Dec,Revenue,FY2025,201.0,USD_billions\\nMeta,Dec,Operating income,FY2025,83.3,USD_billions\\nMeta,Dec,Operating margin,FY2025,41.4,percent\\nMeta,Dec,Operating cash flow,FY2025,115.8,USD_billions\\nMeta,Dec,Capex,FY2025,69.7,USD_billions\\nMeta,Dec,FCF,FY2025,46.1,USD_billions\\nMeta,Dec,Capex/OCF,FY2025,60,percent\\nMicrosoft,Jun,Revenue,FY2020,143.0,USD_billions\\nMicrosoft,Jun,Operating income,FY2020,53.0,USD_billions\\nMicrosoft,Jun,Operating margin,FY2020,37.0,percent\\nMicrosoft,Jun,Operating cash flow,FY2020,60.7,USD_billions\\nMicrosoft,Jun,Capex,FY2020,15.4,USD_billions\\nMicrosoft,Jun,FCF,FY2020,45.2,USD_billions\\nMicrosoft,Jun,Capex/OCF,FY2020,25,percent\\nMicrosoft,Jun,Revenue,FY2021', 'metadata': {'source': 'https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/52ac99a5970bab03242aa6e796b45221dd966b75/key_metrics.csv', 'chunk_index': 8, 'filename': 'key_metrics.csv.md', 'document_id': 'doc_key_metrics.csv.md'}, 'score': 0.7749123250634458}, {'document': 'FY2024,44.5,USD_billions\\nMicrosoft,Jun,FCF,FY2024,74.1,USD_billions\\nMicrosoft,Jun,Capex/OCF,FY2024,38,percent\\nMicrosoft,Jun,Revenue,FY2025,281.7,USD_billions\\nMicrosoft,Jun,Operating income,FY2025,128.5,USD_billions\\nMicrosoft,Jun,Operating margin,FY2025,45.6,percent\\nMicrosoft,Jun,Operating cash flow,FY2025,136.2,USD_billions\\nMicrosoft,Jun,Capex,FY2025,64.6,USD_billions\\nMicrosoft,Jun,FCF,FY2025,71.6,USD_billions\\nMicrosoft,Jun,Capex/OCF,FY2025,47,percent\\nNVIDIA,Jan,Revenue,FY2020,10.9,USD_billions\\nNVIDIA,Jan,Operating income,FY2020,2.8,USD_billions\\nNVIDIA,Jan,Operating margin,FY2020,26.1,percent\\nNVIDIA,Jan,Operating cash flow,FY2020,4.8,USD_billions\\nNVIDIA,Jan,Revenue,FY2021,16.7,USD_billions\\nNVIDIA,Jan,Operating income,FY2021,4.5,USD_billions\\nNVIDIA,Jan,Operating margin,FY2021,27.2,percent\\nN', 'metadata': {'filename': 'key_metrics.csv.md', 'source': 'https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/52ac99a5970bab03242aa6e796b45221dd966b75/key_metrics.csv', 'chunk_index': 11, 'document_id': 'doc_key_metrics.csv.md'}, 'score': 0.7709939136969459}, {'document': '2024,638.0,USD_billions\\nAmazon,Dec,Operating income,FY2024,68.6,USD_billions\\nAmazon,Dec,Operating margin,FY2024,10.8,percent\\nAmazon,Dec,Operating cash flow,FY2024,115.9,USD_billions\\nAmazon,Dec,Capex,FY2024,83.0,USD_billions\\nAmazon,Dec,FCF,FY2024,32.9,USD_billions\\nAmazon,Dec,Capex/OCF,FY2024,72,percent\\nAmazon,Dec,Revenue,FY2025,716.9,USD_billions\\nAmazon,Dec,Operating income,FY2025,80.0,USD_billions\\nAmazon,Dec,Operating margin,FY2025,11.2,percent\\nAmazon,Dec,Operating cash flow,FY2025,139.5,USD_billions\\nAmazon,Dec,Capex,FY2025,131.8,USD_billions\\nAmazon,Dec,FCF,FY2025,7.7,USD_billions\\nAmazon,Dec,Capex/OCF,FY2025,94,percent\\nAlphabet,Dec,Revenue,FY2020,182.5,USD_billions\\nAlphabet,Dec,Operating income,FY2020,41.2,USD_billions\\nAlphabet,Dec,Operating margin,FY2020,22.6,percent\\nAlphabet,Dec,Operatin', 'metadata': {'chunk_index': 2, 'source': 'https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/52ac99a5970bab03242aa6e796b45221dd966b75/key_metrics.csv', 'filename': 'key_metrics.csv.md', 'document_id': 'doc_key_metrics.csv.md'}, 'score': 0.756261775657576}, {'document': 'ating income,FY2024,112.4,USD_billions\\nAlphabet,Dec,Operating margin,FY2024,32.1,percent\\nAlphabet,Dec,Operating cash flow,FY2024,125.3,USD_billions\\nAlphabet,Dec,Capex,FY2024,52.5,USD_billions\\nAlphabet,Dec,FCF,FY2024,72.8,USD_billions\\nAlphabet,Dec,Capex/OCF,FY2024,42,percent\\nAlphabet,Dec,Revenue,FY2025,402.8,USD_billions\\nAlphabet,Dec,Operating income,FY2025,129.0,USD_billions\\nAlphabet,Dec,Operating margin,FY2025,32.0,percent\\nAlphabet,Dec,Operating cash flow,FY2025,164.7,USD_billions\\nAlphabet,Dec,Capex,FY2025,91.4,USD_billions\\nAlphabet,Dec,FCF,FY2025,73.3,USD_billions\\nAlphabet,Dec,Capex/OCF,FY2025,56,percent\\nMeta,Dec,Revenue,FY2020,86.0,USD_billions\\nMeta,Dec,Operating income,FY2020,32.7,USD_billions\\nMeta,Dec,Operating margin,FY2020,38.0,percent\\nMeta,Dec,Operating cash flow,FY2020,38.7,USD_bi', 'metadata': {'filename': 'key_metrics.csv.md', 'chunk_index': 5, 'document_id': 'doc_key_metrics.csv.md', 'source': 'https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/52ac99a5970bab03242aa6e796b45221dd966b75/key_metrics.csv'}, 'score': 0.7506742180489406}, {'document': \"# Initial FY2025 Capex Guidance - Frozen as of February 7, 2025\\n**Source:** https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/e957e35b04eacff5b403eb57725a6a34c1601949/capex_guidance_2025.md\\n## Contenu\\n# Initial FY2025 Capex Guidance - Frozen as of February 7, 2025\\nThis table records the first full-year 2025 guidance available after the companies'\\nFY2024 results. It is a historical snapshot, not the latest guidance. Later revisions\\nmust not be substituted. Guidance is forward-looking and must remain separate from\\nreported FY2025 actuals.\", 'metadata': {'source': 'https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/e957e35b04eacff5b403eb57725a6a34c1601949/capex_guidance_2025.md', 'document_id': 'doc_Initial_FY2025_Capex_Guidance_-_Frozen_as_of_Febru.md', 'chunk_index': 0, 'filename': 'Initial_FY2025_Capex_Guidance_-_Frozen_as_of_Febru.md'}, 'score': 0.7491506111641855}, {'document': '$46.1B and capex represented 60% of operating cash flow. Over FY2020-FY2025, reported capex moved from $15.2B to $69.7B.\\n## Microsoft\\nFor its most recent fiscal year (FY2025, FYE Jun), Microsoft reported revenue of $281.7B, an operating margin of 45.6%, operating cash flow of $136.2B, and capital expenditures of $64.6B. Free cash flow was $71.6B and capex represented 47% of operating cash flow. Over FY2020-FY2025, reported capex moved from $15.4B to $64.6B.\\n## NVIDIA\\nFor its most recent fiscal year (FY2025, FYE Jan), NVIDIA reported revenue of $130.5B, an operating margin of 62.4%, operating cash flow of $64.1B, and capital expenditures of $3.2B. Free cash flow was $60.9B and capex represented 5% of operating cash flow. Over FY2022-FY2025, reported capex moved from $1.0B to $3.2B.', 'metadata': {'document_id': 'doc_Analyst_Prep_Notes_-_Capex___Cash_Generation.md', 'filename': 'Analyst_Prep_Notes_-_Capex___Cash_Generation.md', 'source': 'https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/d8467469871e1b57101c0121ab8ee6aad0d7ea78/analyst_prep_notes.md', 'chunk_index': 2}, 'score': 0.747395673616435}, {'document': '$7.7B and capex represented 94% of operating cash flow. Over FY2020-FY2025, reported capex moved from $40.1B to $131.8B.\\n## Alphabet\\nFor its most recent fiscal year (FY2025, FYE Dec), Alphabet reported revenue of $402.8B, an operating margin of 32.0%, operating cash flow of $164.7B, and capital expenditures of $91.4B. Free cash flow was $73.3B and capex represented 56% of operating cash flow. Over FY2020-FY2025, reported capex moved from $22.3B to $91.4B.\\n## Meta\\nFor its most recent fiscal year (FY2025, FYE Dec), Meta reported revenue of $201.0B, an operating margin of 41.4%, operating cash flow of $115.8B, and capital expenditures of $69.7B. Free cash flow was $46.1B and capex represented 60% of operating cash flow. Over FY2020-FY2025, reported capex moved from $15.2B to $69.7B.', 'metadata': {'source': 'https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/d8467469871e1b57101c0121ab8ee6aad0d7ea78/analyst_prep_notes.md', 'filename': 'Analyst_Prep_Notes_-_Capex___Cash_Generation.md', 'chunk_index': 1, 'document_id': 'doc_Analyst_Prep_Notes_-_Capex___Cash_Generation.md'}, 'score': 0.7443871903172496}, {'document': '| 32.1% | 125.3 | 52.5 | 72.8 | 42% |\\n| FY2025 | 402.8 | 129.0 | 32.0% | 164.7 | 91.4 | 73.3 | 56% |\\n## Meta (FYE Dec)\\n| Fiscal Year | Revenue | Operating income | Operating margin | Operating cash flow | Capex | FCF | Capex/OCF |\\n| --- | --- | --- | --- | --- | --- | --- | --- |\\n| FY2020 | 86.0 | 32.7 | 38.0% | 38.7 | 15.2 | 23.6 | 39% |\\n| FY2021 | 117.9 | 46.8 | 39.6% | 57.7 | 18.7 | 39.0 | 32% |\\n| FY2022 | 116.6 | 28.9 | 24.8% | 50.5 | 31.2 | 19.3 | 62% |\\n| FY2023 | 134.9 | 46.8 | 34.7% | 71.1 | 27.0 | 44.1 | 38% |\\n| FY2024 | 164.5 | 69.4 | 42.2% | 91.3 | 37.3 | 54.1 | 41% |\\n| FY2025 | 201.0 | 83.3 | 41.4% | 115.8 | 69.7 | 46.1 | 60% |\\n## Microsoft (FYE Jun)', 'metadata': {'chunk_index': 3, 'filename': 'Capital-Expenditure_Reference_Data__from_SEC_10-K__1.md', 'document_id': 'doc_Capital-Expenditure_Reference_Data__from_SEC_10-K__1.md', 'source': 'https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/f7b25eb7a37ba6a09db409ae958e150488abbd82/capex_reference_data.md'}, 'score': 0.7441127067632494}, {'document': 'e,FY2020,32.7,USD_billions\\nMeta,Dec,Operating margin,FY2020,38.0,percent\\nMeta,Dec,Operating cash flow,FY2020,38.7,USD_billions\\nMeta,Dec,Capex,FY2020,15.2,USD_billions\\nMeta,Dec,FCF,FY2020,23.6,USD_billions\\nMeta,Dec,Capex/OCF,FY2020,39,percent\\nMeta,Dec,Revenue,FY2021,117.9,USD_billions\\nMeta,Dec,Operating income,FY2021,46.8,USD_billions\\nMeta,Dec,Operating margin,FY2021,39.6,percent\\nMeta,Dec,Operating cash flow,FY2021,57.7,USD_billions\\nMeta,Dec,Capex,FY2021,18.7,USD_billions\\nMeta,Dec,FCF,FY2021,39.0,USD_billions\\nMeta,Dec,Capex/OCF,FY2021,32,percent\\nMeta,Dec,Revenue,FY2022,116.6,USD_billions\\nMeta,Dec,Operating income,FY2022,28.9,USD_billions\\nMeta,Dec,Operating margin,FY2022,24.8,percent\\nMeta,Dec,Operating cash flow,FY2022,50.5,USD_billions\\nMeta,Dec,Capex,FY2022,31.2,USD_billions\\nMeta,Dec,FCF,FY', 'metadata': {'document_id': 'doc_key_metrics.csv.md', 'source': 'https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/52ac99a5970bab03242aa6e796b45221dd966b75/key_metrics.csv', 'filename': 'key_metrics.csv.md', 'chunk_index': 6}, 'score': 0.7432766796451198}, {'document': '10.8% | 115.9 | 83.0 | 32.9 | 72% |\\n| FY2025 | 716.9 | 80.0 | 11.2% | 139.5 | 131.8 | 7.7 | 94% |\\n## Alphabet (FYE Dec)\\n| Fiscal Year | Revenue | Operating income | Operating margin | Operating cash flow | Capex | FCF | Capex/OCF |\\n| --- | --- | --- | --- | --- | --- | --- | --- |\\n| FY2020 | 182.5 | 41.2 | 22.6% | 65.1 | 22.3 | 42.8 | 34% |\\n| FY2021 | 257.6 | 78.7 | 30.6% | 91.7 | 24.6 | 67.0 | 27% |\\n| FY2022 | 282.8 | 74.8 | 26.5% | 91.5 | 31.5 | 60.0 | 34% |\\n| FY2023 | 307.4 | 84.3 | 27.4% | 101.7 | 32.3 | 69.5 | 32% |\\n| FY2024 | 350.0 | 112.4 | 32.1% | 125.3 | 52.5 | 72.8 | 42% |\\n| FY2025 | 402.8 | 129.0 | 32.0% | 164.7 | 91.4 | 73.3 | 56% |\\n## Meta (FYE Dec)', 'metadata': {'source': 'https://gist.githubusercontent.com/BittnerPierre/555a92f661d3113bee781ba0f793c26a/raw/f7b25eb7a37ba6a09db409ae958e150488abbd82/capex_reference_data.md', 'document_id': 'doc_Capital-Expenditure_Reference_Data__from_SEC_10-K__1.md', 'chunk_index': 2, 'filename': 'Capital-Expenditure_Reference_Data__from_SEC_10-K__1.md'}, 'score': 0.739328677731361}]}"
+  },
+  {
+   "role": "assistant",
+   "tool_calls": [
+    {
+     "id": "chatcmpl-tool-af409c219eca651a",
+     "type": "function",
+     "function": {
+      "name": "write_file",
+      "arguments": "{\"path\": \"/private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmpk_hlsz2u/frozen_fy2025_initial_capex_guidance_release_date_basis_amazon_100b_alphabet_75b_meta_60_65b_finance_lease_principal_microsoft_nvidia_apple_guidance_unavailable_forward_looking.txt\", \"content\": \"The frozen initial FY2025 capex guidance (snapshot as of February 7, 2025) records the first full-year 2025 guidance available after each company's FY2024 results; it is a historical snapshot and later revisions must not be substituted, with guidance remaining forward-looking and separate from reported FY2025 actuals [doc_Initial_FY2025_Capex_Guidance_-_Frozen_as_of_Febru.md:0][doc_Initial_FY2025_Capex_Guidance_-_Frozen_as_of_Febru.md:1].\\n\\nThe frozen figures, release dates, and bases are: Amazon released guidance on 2025-02-06 of approximately $100B, based on management's estimate of capital expenditures; Alphabet released guidance on 2025-02-04 of approximately $75B, based on reported capex (with cash-payment timing causing variability); and Meta released guidance on 2025-01-29 of $60B–$65B, a basis that includes principal payments on finance leases [doc_Initial_FY2025_Capex_Guidance_-_Frozen_as_of_Febru.md:1]. For Meta specifically, the corpus actual is cash paid to acquire property and equipment and excludes finance-lease principal, so a percentage variance against Meta's guidance is not like-for-like and must not be calculated; the FY2025 company-reported capex including finance-lease principal was $72.215B ($69.691B cash PP&E plus $2.524B finance-lease principal) [doc_Initial_FY2025_Capex_Guidance_-_Frozen_as_of_Febru.md:2].\\n\\nNo initial FY2025 capex guidance is provided in the frozen source pack for Microsoft, NVIDIA, or Apple; this should be reported as unavailable rather than estimated [doc_Initial_FY2025_Capex_Guidance_-_Frozen_as_of_Febru.md:2]. Primary releases were used to validate this frozen source [doc_Initial_FY2025_Capex_Guidance_-_Frozen_as_of_Febru.md:2].\"}"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "chatcmpl-tool-af409c219eca651a",
+   "content": "{\"type\":\"text\",\"text\":\"Successfully wrote to /private/var/folders/k7/8s142pls7tgglxgtr3dkl7nw0000gn/T/tmpk_hlsz2u/frozen_fy2025_initial_capex_guidance_release_date_basis_amazon_100b_alphabet_75b_meta_60_65b_finance_lease_principal_microsoft_nvidia_apple_guidance_unavailable_forward_looking.txt\",\"annotations\":null,\"meta\":null}"
+  }
+ ],
+ "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+ "reasoning_effort": "none",
+ "temperature": 1.0,
+ "tools": [
+  {
+   "type": "function",
+   "function": {
+    "name": "write_file",
+    "description": "Create a new file or completely overwrite an existing file with new content. Use with caution as it will overwrite existing files without warning. Handles text content with proper encoding. Only works within allowed directories.",
+    "parameters": {
+     "$schema": "http://json-schema.org/draft-07/schema#",
+     "type": "object",
+     "properties": {
+      "path": {
+       "type": "string"
+      },
+      "content": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "path",
+      "content"
+     ]
+    },
+    "strict": false
+   }
+  },
+  {
+   "type": "function",
+   "function": {
+    "name": "vector_search",
+    "description": "Recherche sémantique dans la base vectorielle de la session.",
+    "parameters": {
+     "properties": {
+      "query": {
+       "description": "La requête de recherche sémantique.",
+       "title": "Query",
+       "type": "string"
+      },
+      "domain_hint": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — indice de domaine pour contextualiser la recherche.",
+       "title": "Domain Hint"
+      },
+      "filenames": {
+       "anyOf": [
+        {
+         "items": {
+          "type": "string"
+         },
+         "type": "array"
+        },
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Optionnel — restreint la recherche à ces fichiers. Utiliser les\nnoms exacts tels que stockés dans la base de connaissances (champ\n'filename' des entrées), pas les titres de documents. En cas de doute,\nomettre ce paramètre (la recherche porte alors sur tout le corpus).",
+       "title": "Filenames"
+      }
+     },
+     "required": [
+      "query",
+      "domain_hint",
+      "filenames"
+     ],
+     "title": "vector_search_args",
+     "type": "object",
+     "additionalProperties": false
+    },
+    "strict": true
+   }
+  }
+ ],
+ "top_p": 0.95
+}

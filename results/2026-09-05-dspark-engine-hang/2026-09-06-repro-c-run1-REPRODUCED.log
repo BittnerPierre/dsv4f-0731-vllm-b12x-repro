@@ -1,0 +1,19 @@
+[court] OK    3.5s prompt=90 completion=28 tool_calls=0 -> 'OK'
+    santé serveur après : UP
+[kit 47] OK    0.9s prompt=25673 completion=34 tool_calls=0 -> 'amazon_alphabet_capex_annual_series_fy2020_to_fy2025_trend_endpoints_growth_direction_abso'
+    santé serveur après : UP
+warm-up terminé, serveur UP
+server OK: http://spark1:8000/v1 serves deepseek-ai/DeepSeek-V4-Flash-0731
+  short probe 'reply pong':  0.7s ok  'pong'
+  short probe 'filename only':  2.7s ok  'probe.txt'
+replaying #01  2 messages, 11 KB  — search: <research_request>
+# Junior Analyst Data Pack - FY2025 AI Ca  (recorded 21s)
+replaying #02  11 messages, 42 KB  — search: <research_request>
+# Junior Analyst Data Pack - FY2025 AI Ca  (recorded 56s)
+60 repetitions, nonce=tail, sampling=recorded
+
+  #01 req#01     1.9s  generated=34   18.1 tok/s  finish=tool_calls  server=up  spec-accept= 90% (30.0 draft tok)
+  #02   313.3s  ERROR HTTP 500: b'{"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":500}}'  server=DOWN
+
+REPRODUCED: the server stopped answering during/after repetition 2 (engine dead; check the head log for 'RPC call to sample_tokens timed out')
+exit=1 07:46:45

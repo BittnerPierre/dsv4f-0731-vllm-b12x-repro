@@ -1,0 +1,10 @@
+server OK: http://spark1:8000/v1 serves deepseek-ai/DeepSeek-V4-Flash-0731
+  short probe 'reply pong':  0.9s ok  'pong'
+  short probe 'filename only':  0.7s ok  'probe.txt'
+[001] seed=281791073 {'mode': 'deps', 'cap': 16, 'nonce': '3', 'greedy': False, 'loops': 2, 'n_requests': 42}
+      -> clean in 661s spec-accept(total)=73%
+[002] seed=240818767 {'mode': 'deps', 'cap': 16, 'nonce': 'head', 'greedy': True, 'loops': 2, 'n_requests': 19}
+      -> clean in 397s spec-accept(total)=73%
+[003] seed=383414890 {'mode': 'deps', 'cap': 16, 'nonce': 'tail', 'greedy': False, 'loops': 1, 'n_requests': 32}
+/private/tmp/claude-501/-Users-pierrebittner-Documents-GitHub-DeepResearch-claude-agentic-research/72f484a8-855e-43b9-98a0-115452dd0f7e/scratchpad/fuzz1.sh: line 2: 92586 Terminated: 15          python3 -u repro_c_fuzz.py --base-url http://spark1:8000/v1
+exit=143 21:21:09

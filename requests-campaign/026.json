@@ -1,0 +1,92 @@
+{
+ "messages": [
+  {
+   "content": "# System context\nYou are part of a multi-agent system called the Agents SDK, designed to make agent coordination and execution easy. Agents uses two primary abstraction: **Agents** and **Handoffs**. An agent encompasses instructions and tools and can hand off a conversation to another agent when appropriate. Handoffs are achieved by calling a handoff function, generally named `transfer_to_<agent_name>`. Transfers between agents are handled seamlessly in the background; do not mention or draw attention to these transfers in your conversation with the user.\n\n\nTu conçois le plan (chemin de fer) d'un rapport de recherche. Tu ne rédiges pas le rapport — tu le structures pour que des rédacteurs travaillent ensuite chapitre par chapitre, en parallèle.\n\nOn te fournit :\n- la demande utilisateur,\n- l'agenda proposé en amont par le planificateur,\n- la liste des sources disponibles (identifiant `[S#]` + sujet).\n\nTa tâche :\n- Vérifie que l'agenda est bien couvert par les sources. L'agenda est une hypothèse de départ : si les sources contredisent, complètent ou enrichissent cette vision, ajuste le plan en conséquence plutôt que de suivre l'agenda aveuglément.\n- Produis un plan ordonné de chapitres. Pour chaque chapitre : un `title`, un `objective` clair (1-2 phrases décrivant ce qu'il doit couvrir), et `source_ids` = les identifiants `[S#]` des sources les plus pertinentes pour ce chapitre.\n- `source_ids` est une INDICATION pour le rédacteur, pas un filtre : il aura accès à tout le corpus et pourra puiser ailleurs. Donne quand même les sources les plus utiles pour orienter son travail.\n- Reste aligné sur la demande : pas de chapitre hors-sujet. Mieux vaut quelques chapitres ciblés qu'une longue liste diluée.\n- `short_summary` : un résumé de 2-3 phrases des conclusions attendues du rapport, à partir de l'agenda et des sources. C'est le résumé exécutif qui accompagnera le rapport final.\n- `follow_up_questions` : 2 à 4 questions de suivi pertinentes que le lecteur pourrait vouloir approfondir ensuite.\n\nPourquoi c'est important : un plan net avec des objectifs distincts évite que les chapitres se recouvrent et se répètent, et garde chaque rédaction focalisée (contexte court, plus fiable).\n\nRéponds uniquement avec l'objet structuré demandé (`title` + `chapters[]` + `short_summary` + `follow_up_questions`).\n",
+   "role": "system"
+  },
+  {
+   "role": "user",
+   "content": "Demande utilisateur :\n<research_request>\n# Junior AI Engineering Reference Brief\n\n## Objective\n\nPrepare a factual onboarding brief for a junior AI engineer. Explain the requested\nconcepts from the five supplied references, connect them into practical workflows,\nand make the limits of the source pack visible. This is documentation synthesis, not\nan invitation to add facts from memory.\n\n## Required coverage\n\n### Prompting\n\nExplain system/developer versus user messages, zero-shot prompting, few-shot\nprompting, chain-of-thought prompting, and ReAct. Distinguish the techniques rather\nthan listing their names.\n\n### Retrieval and RAG\n\nExplain embeddings, vector search or vector stores, retrieval-augmented generation,\nand ChromaDB. Describe how retrieval supplies context to generation.\n\n### Agent systems\n\nExplain orchestration, multi-agent execution, agent memory, function calling or tool\nuse, and error handling with retries or recovery.\n\n## Source discipline\n\nUse only the five references below. Cite the supplied source ID in every concept\nexplanation. If the references do not substantively explain a requested concept,\nstate that source gap explicitly instead of filling it from prior knowledge. A source\ntitle, keyword mention, or unsupported search summary is not evidence by itself.\n\nWrite 24-80 words per concept or tightly related concept pair. Use the sections\nPrompting, Retrieval and RAG, Agent Systems, and Source Gaps. Keep the full brief\nbetween 600 and 2,200 words, excluding the generated Sources section. Avoid fixed\nnumeric recommendations unless the cited reference explicitly provides them.\n\n## External References:\n\n- https://huyenchip.com/2025/01/07/agents.html\n- https://www.anthropic.com/engineering/built-multi-agent-research-system\n- https://platform.openai.com/docs/guides/text?api-mode=chat\n- https://medium.com/@callumjmac/advanced-retrieval-for-retrieval-augmented-generation-99042fa6b774\n- https://medium.com/@farheenshaukat_19/building-systems-with-the-chatgpt-api-6b0bc6755799\n\n</research_request>\n\nAgenda proposé :\n#### Cartographie des concepts à explorer\n\n# AGENDA — Junior AI Engineering Reference Brief\n\n## Objective\nProduce a factual onboarding brief synthesizing concepts from exactly five supplied references, connecting them into practical workflows while exposing source limitations. Documentation synthesis only — no facts added from memory.\n\n---\n\n## SECTION 1: PROMPTING\n\n### 1.1 System/Developer vs User Messages\n- **Concepts**: Role separation in chat APIs, system instructions defining behavior vs user messages as input content\n- **Sources**: Text_generation.md (OpenAI docs), Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md\n- **Keywords**: system prompt, developer message, user message, role, instruction\n- **Justification**: Core API-level distinction every junior engineer must grasp before prompting; both OpenAI platform docs and the ChatGPT API systems article address message roles.\n\n### 1.2 Zero-shot Prompting\n- **Concepts**: Direct task instruction without examples, relying on model's pre-trained knowledge\n- **Sources**: Text_generation.md, Agents_1.md\n- **Keywords**: zero-shot, direct prompt, no examples, baseline prompting\n- **Justification**: Foundational prompting mode; must be contrasted with few-shot to distinguish the techniques per the request.\n\n### 1.3 Few-shot Prompting\n- **Concepts**: Providing example input-output pairs in the prompt to demonstrate desired format/behavior\n- **Sources**: Text_generation.md, Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md\n- **Keywords**: few-shot, examples, in-context learning, demonstration\n- **Justification**: Key differentiation from zero-shot; the OpenAI docs explain this technique explicitly.\n\n### 1.4 Chain-of-Thought Prompting\n- **Concepts**: Eliciting intermediate reasoning steps before final answer to improve performance on complex tasks\n- **Sources**: Text_generation.md, Agents_1.md\n- **Keywords**: chain-of-thought, reasoning steps, intermediate thinking, CoT\n- **Justification**: Distinct from few-shot (reasoning demonstration vs output format); must be explained as a separate technique.\n\n### 1.5 ReAct Prompting / Reasoning + Acting\n- **Concepts**: Interleaving reasoning traces with actions/tool calls in a loop; foundation for agent behavior\n- **Sources**: Agents_1.md, Anthropic (How_we_built_our_multi_1.md)\n- **Keywords**: ReAct, reasoning, action, tool use loop, thought-action-observation\n- **Justification**: Bridge between prompting and agent systems; Chip Huyen's article is the primary source on this technique.\n\n### 1.6 Distinguishing the Prompting Techniques\n- **Concepts**: Clear differentiation between zero-shot, few-shot, CoT, and ReAct based on what each adds (examples, reasoning steps, actions)\n- **Sources**: All five\n- **Keywords**: comparison, technique distinction, prompting taxonomy\n- **Justification**: The request explicitly asks to \"distinguish the techniques rather than listing their names.\"\n\n---\n\n## SECTION 2: RETRIEVAL AND RAG\n\n### 2.1 Embeddings\n- **Concepts**: Dense vector representations of text capturing semantic meaning; foundation for similarity search\n- **Sources**: Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md, Agents_1.md\n- **Keywords**: embeddings, vector representation, semantic, dense vectors, similarity\n- **Justification**: Fundamental to understanding how retrieval works at the numerical level.\n\n### 2.2 Vector Search / Vector Stores\n- **Concepts**: Databases/indexes optimized for similarity search over embeddings; nearest-neighbor retrieval\n- **Sources**: Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md, Agents_1.md\n- **Keywords**: vector store, vector search, nearest neighbor, similarity search, index\n- **Justification**: Core infrastructure for RAG; needs to be connected to embeddings conceptually.\n\n### 2.3 Retrieval-Augmented Generation (RAG)\n- **Concepts**: Pipeline combining retrieval of relevant documents with LLM generation; grounding generation in external knowledge\n- **Sources**: Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md, Agents_1.md\n- **Keywords**: RAG, retrieval, generation, grounding, context injection\n- **Justification**: The central architectural pattern connecting retrieval to generation; must show the workflow end-to-end.\n\n### 2.4 ChromaDB\n- **Concepts**: Specific vector database implementation used as a vector store in RAG pipelines\n- **Sources**: Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md, Agents_1.md\n- **Keywords**: ChromaDB, vector database, local, persistent storage\n- **Justification**: Requested explicitly; must verify substantive coverage in sources vs. mere mention.\n\n### 2.5 How Retrieval Supplies Context to Generation\n- **Concepts**: The mechanism by which retrieved documents get injected into the prompt as context for the generator\n- **Sources**: Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md, Agents_1.md\n- **Keywords**: context injection, prompt assembly, retrieval-to-generation pipeline, grounding\n- **Justification**: Explains the connective tissue between the retrieval and generation halves of the system.\n\n---\n\n## SECTION 3: AGENT SYSTEMS\n\n### 3.1 Orchestration\n- **Concepts**: Coordination of agent workflows, task decomposition, scheduling, and control flow\n- **Sources**: Agents_1.md, How_we_built_our_multi_1.md (Anthropic)\n- **Keywords**: orchestration, coordination, control flow, workflow, task decomposition, sub-agents\n- **Justification**: Central to multi-agent systems; Anthropic's article details concrete orchestration patterns.\n\n### 3.2 Multi-Agent Execution\n- **Concepts**: Multiple specialized agents working in parallel or sequentially on subtasks; agent-to-agent communication\n- **Sources**: How_we_built_our_multi_1.md (Anthropic), Agents_1.md\n- **Keywords**: multi-agent, parallel execution, sub-agent, agent collaboration, delegation\n- **Justification**: Explicitly requested; Anthropic's system design is the primary reference.\n\n### 3.3 Agent Memory\n- **Concepts**: How agents retain state across steps — conversation history, long-term storage, context accumulation\n- **Sources**: Agents_1.md, Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md\n- **Keywords**: memory, context window, conversation history, state, persistence, long-term/short-term memory\n- **Justification**: Distinguishes stateless LLM calls from stateful agent behavior; must connect to practical implementation.\n\n### 3.4 Function Calling / Tool Use\n- **Concepts**: Model-generated structured calls to external functions/tools; tool definitions, arguments, results\n- **Sources**: Agents_1.md, Text_generation.md (OpenAI), Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md\n- **Keywords**: function calling, tool use, tool definitions, structured output, external API\n- **Justification**: The mechanism that makes agents actionable; covered across multiple sources.\n\n### 3.5 Error Handling with Retries / Recovery\n- **Concepts**: Handling tool failures, invalid responses, rate limits; retry logic and recovery strategies\n- **Sources**: Agents_1.md, Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md, How_we_built_our_multi_1.md\n- **Keywords**: retry, error handling, recovery, failure, fallback, max iterations\n- **Justification**: Practical reliability concern for production agent systems; must verify which sources substantively cover it.\n\n---\n\n## SECTION 4: SOURCE GAPS\n\n### 4.1 Explicitly Identified Coverage Gaps\n- **Concepts**: Which requested concepts are NOT substantively explained by the five references\n- **Sources**: All five (as gap analysis)\n- **Keywords**: gap, limitation, not covered, absent, unsupported\n- **Justification**: The request explicitly requires stating source gaps rather than filling from prior knowledge. This is a critical intellectual-honesty section.\n\n### 4.2 Source Pack Limitations\n- **Concepts**: Overlaps, biases, datedness, and scope restrictions of the five references\n- **Sources**: All five\n- **Keywords**: scope, limitation, overlap, datedness, reference quality\n- **Justification**: Makes the limits of the source pack visible as explicitly requested.\n\n---\n\n## WORD COUNT TARGET\n- Per concept/pair: 24-80 words\n- Full brief: 600-2,200 words (excluding Sources section)\n\n## SOURCES USED (5)\n1. Agents_1.md — huyenchip.com/2025/01/07/agents.html\n2. How_we_built_our_multi_1.md — anthropic.com multi-agent research system\n3. Text_generation.md — OpenAI platform docs (chat API)\n4. Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md — Callum Macpherson (Medium)\n5. Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md — Farheen Shaukat (Medium)\n\nSources disponibles (identifiant - sujet) :\n- [S1] difference between system prompt developer message and user message roles in chatgpt api instructions\n- [S2] zero-shot prompting few-shot prompting chain-of-thought reasoning examples and in-context learning in llm api\n- [S3] embeddings vector search similarity search vector store and chromadb in retrieval augmented generation rag pipeline\n- [S4] react prompting reasoning action observation loop tool use and agent behavior design\n- [S5] how retrieval injects context into prompt for generation grounding rag workflow document retrieval to answer synthesis\n- [S6] multi-agent orchestration task decomposition sub-agent delegation coordination workflow parallel and sequential agent execution\n- [S7] function calling tool use definitions agent memory state context window error handling retries fallback recovery in agent systems"
+  }
+ ],
+ "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+ "reasoning_effort": "none",
+ "response_format": {
+  "type": "json_schema",
+  "json_schema": {
+   "name": "final_output",
+   "strict": true,
+   "schema": {
+    "$defs": {
+     "Chapter": {
+      "description": "One planned chapter of the report (issue #196, writer décomposé).",
+      "properties": {
+       "title": {
+        "title": "Title",
+        "type": "string"
+       },
+       "objective": {
+        "title": "Objective",
+        "type": "string"
+       },
+       "source_ids": {
+        "default": [],
+        "items": {
+         "type": "string"
+        },
+        "title": "Source Ids",
+        "type": "array"
+       }
+      },
+      "required": [
+       "title",
+       "objective",
+       "source_ids"
+      ],
+      "title": "Chapter",
+      "type": "object",
+      "additionalProperties": false
+     }
+    },
+    "description": "Structured report plan produced by the outline step (D1).",
+    "properties": {
+     "title": {
+      "title": "Title",
+      "type": "string"
+     },
+     "chapters": {
+      "items": {
+       "$ref": "#/$defs/Chapter"
+      },
+      "title": "Chapters",
+      "type": "array"
+     },
+     "short_summary": {
+      "default": "",
+      "title": "Short Summary",
+      "type": "string"
+     },
+     "follow_up_questions": {
+      "default": [],
+      "items": {
+       "type": "string"
+      },
+      "title": "Follow Up Questions",
+      "type": "array"
+     }
+    },
+    "required": [
+     "title",
+     "chapters",
+     "short_summary",
+     "follow_up_questions"
+    ],
+    "title": "ReportOutline",
+    "type": "object",
+    "additionalProperties": false
+   }
+  }
+ },
+ "temperature": 1.0,
+ "top_p": 0.95
+}

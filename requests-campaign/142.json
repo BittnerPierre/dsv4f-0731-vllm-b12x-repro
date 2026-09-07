@@ -1,0 +1,76 @@
+{
+ "messages": [
+  {
+   "content": "# System context\nYou are part of a multi-agent system called the Agents SDK, designed to make agent coordination and execution easy. Agents uses two primary abstraction: **Agents** and **Handoffs**. An agent encompasses instructions and tools and can hand off a conversation to another agent when appropriate. Handoffs are achieved by calling a handoff function, generally named `transfer_to_<agent_name>`. Transfers between agents are handled seamlessly in the background; do not mention or draw attention to these transfers in your conversation with the user.\n\n\nYou are a helpful research assistant. Given a research plan with a list of knowledge entries, generate a COMPREHENSIVE set of semantic searches to perform in vectorized knowlegde base to exhaustively cover the agenda.\n\nGenerate between 5-7 searches covering the suggested topics in the agenda.\n\nFor each search, prepare a SearchPlan with:\n\n- `query`: A specific, detailed search query\n- `reason`: Why this search is important and what specific information you expect to find\n- `filenames` (optional): Only include when there is a clear, obvious benefit to limiting the search to specific file(s); otherwise leave it empty.\n\nLook at the knowledge entries summary and keywords to frame comprehensive queries that will extract maximum relevant information.\n\nUse the tools to achieve the task.\n",
+   "role": "system"
+  },
+  {
+   "role": "user",
+   "content": "#### Cartographie des concepts à explorer\n\nAGENDA — Junior AI Engineering Onboarding Brief\nSource pack: 5 references (all indexed in vector store camp-0731-jj5p-concept-5)\nSource IDs used throughout (alphabetical):\n  [H1] huyenchip.com/agents (Agents_1.md) — agent systems\n  [H2] anthropic.com/built-multi-agent-research-system (How_we_built_our_multi_1.md) — orchestration/multi-agent\n  [H3] platform.openai.com/docs/guides/text (Text_generation.md) — prompting\n  [H4] medium.com callumjmac RAG (Advanced_Retrieval_for_Retrieval-Augmented_Generat_1.md) — RAG/embeddings/ChromaDB\n  [H5] medium.com farheenshaukat ChatGPT API (Building_Systems_with_the_ChatGPT_API___by_Farheen_1.md) — function calling/systems\n\nSECTION 1 — PROMPTING\nConcepts:\n  1. System/developer vs user messages — role boundaries, instruction vs input separation. Source: H3, H5. Keywords: system, developer, user, role, instruction.\n  2. Zero-shot prompting — direct instruction without examples. Source: H3. Keywords: zero-shot, no examples, direct.\n  3. Few-shot prompting — providing examples to steer format/behavior. Source: H3. Keywords: few-shot, examples, demonstrate.\n  4. Chain-of-thought prompting — step-by-step reasoning before answer. Source: H3. Keywords: chain-of-thought, reasoning, step-by-step.\n  5. ReAct — reasoning + acting (tool use) loop. Source: H1, H3. Keywords: ReAct, reasoning, acting, tools.\n  Justification: Distinct prompting techniques requested; must distinguish rather than just list.\n\nSECTION 2 — RETRIEVAL AND RAG\nConcepts:\n  6. Embeddings — numeric vector representation of text for similarity. Source: H4. Keywords: embeddings, vectors, representation, similarity.\n  7. Vector search / vector stores — storing and querying vectors by similarity. Source: H4. Keywords: vector search, vector store, similarity search.\n  8. Retrieval-augmented generation (RAG) — retrieving external context to ground generation. Source: H4. Keywords: RAG, retrieval, generation, context.\n  9. ChromaDB — specific vector database implementation. Source: H4. Keywords: ChromaDB, vector database, persistence.\n  10. How retrieval supplies context to generation — pipeline from query to context injection. Source: H4, H3. Keywords: context, injection, pipeline, grounding.\n  Justification: Core RAG stack requested; must describe the retrieval-to-generation flow.\n\nSECTION 3 — AGENT SYSTEMS\nConcepts:\n  11. Orchestration — controlling flow, planning, coordinating components. Source: H2, H1. Keywords: orchestration, planner, coordinator, leader.\n  12. Multi-agent execution — multiple agents collaborating, subagents, parallelization. Source: H2, H1. Keywords: multi-agent, subagent, parallel, collaboration.\n  13. Agent memory — retaining state, context, conversation history. Source: H1. Keywords: memory, context, history, state.\n  14. Function calling / tool use — model invoking external functions/tools. Source: H5, H1. Keywords: function calling, tools, API, actions.\n  15. Error handling with retries / recovery — retry logic, recovery from failures. Source: H2. Keywords: retry, retries, error, recovery, token limits.\n  Justification: Agent architecture concepts requested; H2 explicitly documents retries/error handling.\n\nSECTION 4 — SOURCE GAPS\n  Explicitly identify any requested concepts the 5 references do NOT substantively explain (e.g., ReAct depth in H3/H1, agent memory depth, retries/recovery coverage). State gaps rather than fill from memory.\n  Keywords: gap, coverage, limitation, absent.\n  Justification: Required by the brief to make source-pack limits visible.\n\nWORD/STRUCTURE TARGETS\n  - 24-80 words per concept or tightly related pair\n  - Sections: Prompting, Retrieval and RAG, Agent Systems, Source Gaps\n  - Full brief 600-2,200 words (excluding Sources section)\n  - Cite source ID in every concept explanation\n  - No fixed numeric recommendations unless explicitly in source"
+  }
+ ],
+ "model": "deepseek-ai/DeepSeek-V4-Flash-0731",
+ "reasoning_effort": "none",
+ "response_format": {
+  "type": "json_schema",
+  "json_schema": {
+   "name": "final_output",
+   "strict": true,
+   "schema": {
+    "$defs": {
+     "FileSearchItem": {
+      "properties": {
+       "reason": {
+        "title": "Reason",
+        "type": "string"
+       },
+       "query": {
+        "title": "Query",
+        "type": "string"
+       },
+       "filenames": {
+        "anyOf": [
+         {
+          "items": {
+           "type": "string"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Filenames"
+       }
+      },
+      "required": [
+       "reason",
+       "query",
+       "filenames"
+      ],
+      "title": "FileSearchItem",
+      "type": "object",
+      "additionalProperties": false
+     }
+    },
+    "properties": {
+     "searches": {
+      "items": {
+       "$ref": "#/$defs/FileSearchItem"
+      },
+      "title": "Searches",
+      "type": "array"
+     }
+    },
+    "required": [
+     "searches"
+    ],
+    "title": "FileSearchPlan",
+    "type": "object",
+    "additionalProperties": false
+   }
+  }
+ },
+ "temperature": 1.0,
+ "top_p": 0.95
+}
