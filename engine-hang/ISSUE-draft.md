@@ -17,7 +17,7 @@ stayed up and misbehaved; here the engine dies.
 | Recipe | `recipes/deepseek-v4-flash-0731.yaml` (2026-09-03 version), `./run-recipe.sh -d` |
 | Image / vLLM | `vllm-node-b12x`, vLLM `0.1.dev20482+g83cb22a0e.d20260903`, mod `instanttensor-hybrid-draft-loader` |
 | Model | `deepseek-ai/DeepSeek-V4-Flash-0731`, `deepseek_v4_fp8`, experts fp4, KV `fp8_ds_mla` |
-| Cluster | TP=2, head 192.168.177.11 (rank 0) + worker 192.168.177.12 (rank 1), RoCE (2 HCAs), collectives via PYNCCL only (custom AR / SymmMem / FlashInfer AR unavailable on SM121) |
+| Cluster | TP=2, head node (rank 0) + worker node (rank 1), RoCE (2 HCAs), collectives via PYNCCL only (custom AR / SymmMem / FlashInfer AR unavailable on SM121) |
 | Spec decode | `method=dspark`, 5 speculative tokens, `draft_sample_method=probabilistic` |
 | Driver / CUDA / NCCL | 580.159.03 / 13.0 / `libnccl.so.2.31.2` loaded (packages say 2.28.3) |
 | Client | OpenAI-compatible chat completions, temperature 1.0, top_p 0.95, tools |
