@@ -39,3 +39,12 @@ python3 repro_c_fuzz.py --base-url http://spark1:8000/v1 --requests-dir requests
 ```
 
 Stdlib only, no API key. Exit 0 clean, 1 reproduced (server dead), 2 cannot run.
+
+## Server-side collection
+
+- `diagnostics/collect-vllm-hang.sh` — run on the head node while the cluster is hung: it
+  collects the GPU counters, the worker PIDs and states, py-spy and `pystack --native-all`
+  dumps of both ranks, a `/proc` per-thread scan 5 s apart to find the thread actually burning
+  CPU, the vLLM logs and the RDMA error counters, then prints a summary. `diagnostics/README.md`
+  explains why py-spy alone misses the spinning NCCL thread, and lists the reference values a
+  hang produces.
