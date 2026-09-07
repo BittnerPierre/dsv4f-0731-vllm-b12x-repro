@@ -94,27 +94,3 @@ path for this model rather than the weights, prompts, speculative decoding by
 itself, or concurrency. It is fixed on `dev/jovian-judgement`.
 
 Issue text: `ISSUE.md`.
-
-## Second defect (2026-09-05 → 07): engine dies mid-decode with speculative decoding on
-
-Different symptom, different recipe (the fixed 2026-09-03 one, `dspark` speculative decoding on,
-TP=2 over two Sparks): the engine dies during a single-request decode with
-`RPC call to sample_tokens timed out`, one thread per rank left spinning in `libnccl`.
-Six occurrences in two days, then none: the kit keeps everything needed to try again.
-
-- `ISSUE-engine-hang.md` — the consolidated report (facts, reproduction, what the frozen
-  processes show, server-side gists), not posted yet.
-- `repro_c_engine_hang.py` — replays recorded agent turns or a whole recorded run
-  (`--replay-all --order deps`) with fresh prompt tails (`--nonce`), checks the server after
-  each reply, exits 1 when it dies. `--requests-dir` selects the request set.
-- `repro_c_fuzz.py` — replays seed-described mutations of a run (subset, scheduling, batch
-  transitions, nonce position, greedy) on one server until it dies; `--seed` replays a hit.
-- Request sets: `requests/` (finance run, 2026-08-23, broken build), `requests-concept/`
-  (concept run, 2026-09-05, fixed build, real timings), `requests-killed/` (the four prompts
-  killed under the benchmark, exported from tracing), `requests-campaign/` (10 full benchmark
-  runs recorded verbatim on 2026-09-07, no hang).
-- `results/2026-09-05-dspark-engine-hang/` — client-side timeline of every occurrence and every
-  attempt, with logs.
-
-Score of the reproduction so far: 2 hangs out of 5 script attempts on 2026-09-06 morning, then
-0 in ~13 hours of replays, fuzzing and two real benchmark campaigns on one server instance.
